@@ -6,7 +6,7 @@ const path = require('path');
 dotenv.config();
 
 //estableciendo las variables
-const PORT = 3000;
+const PORT = process.env.PORT;
 const expressApp = express();
 
 //estableciendo directorio de archivos estaticos
