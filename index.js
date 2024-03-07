@@ -4,6 +4,7 @@ const dotenv = require('dotenv');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const { default: mongoose } = require('mongoose');
+const UserRouter = require('./public/routes/user');
 
 
 dotenv.config();
@@ -26,28 +27,15 @@ mongoose
 });
 
 expressApp.use(cors({ origin: '*' }));
-   expressApp.use(bodyParser.json());
-   expressApp.use(express.static('public'));
-   expressApp.use(express.json());
+expressApp.use(bodyParser.json());
+expressApp.use(express.static('public')); // paginas estaticas
+expressApp.use(express.json());
 
-const userModel = require('./schemas/User-schema');
+expressApp.use('/registro',UserRouter)
 
-expressApp.post("/registro", async (req,res)=>{
-  
-    const { Nombre, Correo, Apellidos, Contraseña } = req.body;
-
-
-    const newUser = new userModel({ Nombre, Correo, Apellidos, Contraseña});
-    await newUser.save();
-
-    return res.send("Usuario Registrado");
-    
-
+expressApp.use(function (err, req, res, next) {
+    res.status(422).send({ error: err.message });
 });
-
-   expressApp.use(function (err, req, res, next) {
-       res.status(422).send({ error: err.message });
-   });
 
 //Levantando el servidor 
 expressApp.listen(PORT, () =>
