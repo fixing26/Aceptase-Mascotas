@@ -31,7 +31,7 @@ expressApp.use(bodyParser.json());
 expressApp.use(express.static('public')); // paginas estaticas
 expressApp.use(express.json());
 
-expressApp.use('/registro',UserRouter)
+expressApp.use('/user',UserRouter)
 
 expressApp.use(function (err, req, res, next) {
     res.status(422).send({ error: err.message });
