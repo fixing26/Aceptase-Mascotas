@@ -17,7 +17,7 @@
 					<div class="img_login">
 						<img src="img/pet_login.png" alt="mujer, lar, gatos">
 					</div>
-					<form action="">
+					<form action="/user/login" method="POST" id="loginForm">
 						<h1 class="title">
 							Aceptase Mascotas!
 						</h1>
@@ -26,14 +26,14 @@
 						</h2>
 						<div class="pii_input">
 							<h3 class="title3">Correo</h3>
-							<input class="pii" type="email" name="email" >
+							<input class="pii" type="email" name="Correo" id="Correo">
 							<span class="material-symbols-outlined input_svg">
 								mail
 							</span>
 						</div>
 						<div class="pii_input">
 							<h3 class="title3">Contraseña</h3>
-							<input class="pii" type="password" name="passwd">
+							<input class="pii" type="password" name="Contraseña" id="Contraseña">
 							<span class="material-symbols-outlined input_svg">
 								key
 							</span>	
@@ -55,6 +55,30 @@
 			</div>
 		</div>
 		<script src="js/global.js"></script>
+		<script>
+			document.getElementById('loginForm').addEventListener('submit', async function(event) {
+				event.preventDefault(); // Evitar que el formulario se envíe de forma tradicional
+		
+				const email = document.getElementById('Correo').value;
+				const password = document.getElementById('Contraseña').value;
+		
+				const response = await fetch('/user/login', {
+					method: 'POST',
+					body: JSON.stringify({ Correo: email, Contraseña: password }),
+					headers: {
+						'Content-Type': 'application/json'
+					}
+				});
+		
+				if (response.ok) {
+					const data = await response.json();
+					localStorage.setItem('token', data.token); // Guardar el token en el almacenamiento local
+					window.location.href = 'http://localhost:3000/index.html'; // Redirigir al usuario a la pagina principal
+				} else {
+					alert('Inicio de sesión fallido');
+				}
+			});
+		</script>
 	</body>
 	<footer class="container_footer">
 		<p>© copyright 2024 - Aceptase Mascotas!</p>

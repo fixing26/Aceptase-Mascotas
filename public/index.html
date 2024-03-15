@@ -14,12 +14,14 @@
 	<div class="container">
 		<div class="back">
 			<header class="header">
-				<a href="paginicial.html" class="title">Aceptase Mascotas</a>
+				<a href="index.html" class="title">Aceptase Mascotas</a>
 				<nav>
 					<ul class="navs">
 						<li class="options border_options"><a href="">Anucie aqui</a></li>
 						<li class="options border_options"><a href="">Mis anuncios</a></li>
 						<li class="options border_options"><a href="">Favoritos</a></li>
+						<li id="user-info" style="display: none;">¡Hola, <span id="username"></span>!</li>
+                    	<li id="logout-btn" style="display: none;"><a href="#" onclick="logout()">Cerrar sesión</a></li>
 						<li class="options login"><a href="login.html">ENTRAR</a></li>
 					</ul>
 				</nav>
@@ -62,5 +64,33 @@
 	<footer class="container_footer">
 		<p>© copyright 2024 - Aceptase Mascotas!</p>
 	</footer>
+	<script>
+		// JavaScript para mostrar información del usuario y cerrar sesión
+		document.addEventListener('DOMContentLoaded', function() {
+			const token = localStorage.getItem('token');
+			console.log('Token',token);
+			if (token) {
+				// Si hay un token en el almacenamiento local, el usuario está logeado
+				// Aquí puedes hacer una solicitud al servidor para obtener más información del usuario si es necesario
+				const username = obtenerNombreDeUsuario(token); // Función ficticia para obtener el nombre de usuario
+				document.getElementById('username').innerText = username;
+				document.getElementById('user-info').style.display = 'inline-block'; // Mostrar la información del usuario
+				document.getElementById('logout-btn').style.display = 'inline-block'; // Mostrar el botón de cerrar sesión
+				document.getElementById('login-btn').style.display = 'none'; // Ocultar el botón de inicio de sesión
+			} else {
+				// Si no hay token en el almacenamiento local, el usuario no está logeado
+				document.getElementById('user-info').style.display = 'none'; // Ocultar la información del usuario
+				document.getElementById('logout-btn').style.display = 'none'; // Ocultar el botón de cerrar sesión
+				document.getElementById('login-btn').style.display = 'inline-block'; // Mostrar el botón de inicio de sesión
+			}
+		});
+	
+		function logout() {
+			// Eliminar la información del usuario del almacenamiento local
+			localStorage.removeItem('token');
+			// Redirigir al usuario a la página de inicio de sesión
+			window.location.href = 'login.html';
+		}
+	</script>
   </body>
 </html>
