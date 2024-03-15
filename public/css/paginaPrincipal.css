@@ -1,3 +1,10 @@
+.back{
+  min-width: 110vh;
+  max-width: 110vh;
+}
+.header{
+  padding: 0.625rem 1.25rem;
+}
 .search_container{
     width: 100%;
     position: relative;

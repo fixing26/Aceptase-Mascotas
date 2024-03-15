@@ -4,10 +4,7 @@
     min-width: 99vh;
     padding: 0rem;
   }
-  .back{
-    width: 91.5vh;
-    height: 85vh;
-  }
+
   .header {
     background: #fff;
     display: flex;

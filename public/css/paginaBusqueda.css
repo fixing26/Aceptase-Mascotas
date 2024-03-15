@@ -169,7 +169,7 @@ button{
   height: 100%;
   display: none;
 }
-.photo[data-active]{
+.photo[photo-active]{
   display: block;
 }
 

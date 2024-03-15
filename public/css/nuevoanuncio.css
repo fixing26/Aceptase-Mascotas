@@ -1,0 +1,99 @@
+.back{
+  min-width: 110vh;
+  max-width: 110vh;
+}
+.header{
+  padding: 0.625rem 1.25rem;
+}
+.title2{
+  /*superior derecha inferior izquierda*/
+  margin: 15px 0px 10px 15px;
+}
+.title1{
+  margin-bottom: 30px;
+  padding-bottom: 10px;
+  border-bottom: #f3eee8 solid;
+}
+
+.input:focus{
+    outline-color: #F9A826;
+  }
+
+.input{
+  font-size: 1rem;
+  color: #333230;
+  background-color: #f3eee8;
+  border-radius: 0.25rem;
+  border: none;
+  resize: none;
+  font-family: Arial, Helvetica, sans-serif;
+  
+}
+
+.inputSize{
+  text-align: center;
+  height: 2rem;
+  max-width: 5.625rem;
+  min-width: 4.625rem;
+  margin-left: 15px;
+}
+
+.inputCities{
+  text-align: center;
+  height: 2rem;
+  min-width: 8.625rem;
+  margin-left: 15px;
+}
+
+.radio{
+  accent-color: #F9A826;
+}
+
+.options_radio{
+  margin-left: 15px;
+}
+
+.btn{
+  margin-top: 30px;
+  margin-left: 15px;
+  width: 90%;
+  padding: 10px;
+  cursor: pointer;
+}
+
+textarea
+{
+  min-width: 80%;
+  min-height: 60px;
+  margin-left: 15px;
+  padding: 10px;
+
+}
+
+.photos_file {
+  margin-left: 10px;
+  cursor: pointer;
+  height: 2.5rem;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #41049e;
+  border-radius: 0.25rem;
+  background: #F9A826;
+  padding: 0.5rem 1.625rem;
+  font-weight: bold;  
+  border: none;
+  margin-left: 15px;
+}
+
+.photos_file:hover{
+  background: #41049e;
+  color: #F9A826;
+}
+
+.form_container{
+  box-shadow: 0px 0px 0.625rem #e4e3e3;
+  padding: 0.938rem;
+  max-width: 100%;
+  max-height: 100%;
+}

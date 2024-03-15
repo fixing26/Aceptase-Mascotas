@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es">
+
+	<head>
+		<meta charset="UTF-8">
+		<title>Aceptase Mascotas! - Anuncie aqui</title>
+		<link rel="stylesheet" href="css/global.css">
+		<link rel="stylesheet" href="css/menu.css">
+		<link rel="stylesheet" href="css/nuevoanuncio.css">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+		<link rel="shortcut icon" type="image" href="img/icon-pet-paw.svg">
+		
+	</head>
+  <body>
+	<div class="container">
+		<div class="back">
+			<header class="header">
+				<a href="paginicial.html" class="title">Aceptase Mascotas</a>
+				<nav>
+					<ul class="navs">
+						<li class="options border_options"><a href="">Anucie aqui</a></li>
+						<li class="options border_options"><a href="">Mis anuncios</a></li>
+						<li class="options border_options"><a href="">Favoritos</a></li>
+						<li class="options login"><a href="login.html">CERRAR SESIÓN</a></li>
+					</ul>
+				</nav>
+			</header>
+			<div class="total">
+				<div class="form_container">
+					<form action="">
+						<h3  class="title2">Ciudad</h3>
+						<input class="input inputCities" type="text" placeholder="Ciudad" required>
+						<h3  class="title2">Provincia</h3>
+						<input class="input inputCities" type="text" placeholder="Provincia" required><br>
+						<h3 class="title2">Tipo de vivienda</h3>
+						<div class="options_radio">
+							<input class="radio" type="radio" id="apartamento" name="inmueble" value="apartamento" required>
+							<label for="apartamento">Apartamento</label>
+							<input class="radio" type="radio" id="piso" name="inmueble" value="piso">
+							<label for="piso">Piso</label>
+							<input class="radio" type="radio" id="casa" name="inmueble" value="casa">
+							<label for="casa">Casa</label>
+							<input class="radio" type="radio" id="chalet" name="inmueble" value="chalet">
+							<label for="chalet">Chalet</label>
+						</div>
+						<h3  class="title2">Numero de habitaciones</h3>
+						<div class="options_radio">
+							<input class="radio" type="radio" id="uno" name="habitaciones" value="uno" required>
+							<label for="uno">1</label><br>
+							<input class="radio" type="radio" id="dos" name="habitaciones" value="dos">
+							<label for="dos">2</label><br>
+							<input class="radio" type="radio" id="tres" name="habitaciones" value="tres">
+							<label for="tres">3+</label><br>
+						</div>
+						<h3  class="title2">Numero de baños</h3>
+						<div class="options_radio">
+							<input class="radio" type="radio" id="uno" name="banyos" value="uno" required>
+							<label for="uno">1</label><br>
+							<input class="radio" type="radio" id="dos" name="banyos" value="dos">
+							<label for="dos">2</label><br>
+							<input class="radio" type="radio" id="tres" name="banyos" value="tres">
+							<label for="tres">3+</label><br>
+						</div>
+						<h3  class="title2">Area del inmueble en m²</h3>
+						<input class="input inputSize" type="number" min="0" placeholder="m²" required><br>
+						<h3 class="title2">Descripción del inmueble/zona</h3>
+						<textarea class="input" class="description" maxlength="150" placeholder="Una breve descripción de la zona y del inmueble." required></textarea><br>
+						<h3  class="title2">Precio del inmueble en €</h3>
+						<input class="input inputSize" type="number" min="0" placeholder="€" required><br>
+						<h3  class="title2">Fotos del anuncio</h3>
+						<input type="file" id="upload" name="photos" accept="image/png, image/jpeg" required hidden/>
+						<label class="photos_file" for="upload">Seleccionar archivo</label>
+						<br>
+						<input class="btn" type="submit" value="Publicar el anuncio">
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	  <footer class="container_footer">
+	<p>© copyright 2024 - Aceptase Mascotas!</p>
+</footer>
+
+	<script src="js/busqueda.js"></script>
+  </body>
+
+</html>
