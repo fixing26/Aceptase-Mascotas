@@ -65,32 +65,54 @@
 		<p>© copyright 2024 - Aceptase Mascotas!</p>
 	</footer>
 	<script>
-		// JavaScript para mostrar información del usuario y cerrar sesión
 		document.addEventListener('DOMContentLoaded', function() {
-			const token = localStorage.getItem('token');
-			console.log('Token',token);
-			if (token) {
-				// Si hay un token en el almacenamiento local, el usuario está logeado
-				// Aquí puedes hacer una solicitud al servidor para obtener más información del usuario si es necesario
-				const username = obtenerNombreDeUsuario(token); // Función ficticia para obtener el nombre de usuario
-				document.getElementById('username').innerText = username;
-				document.getElementById('user-info').style.display = 'inline-block'; // Mostrar la información del usuario
-				document.getElementById('logout-btn').style.display = 'inline-block'; // Mostrar el botón de cerrar sesión
-				document.getElementById('login-btn').style.display = 'none'; // Ocultar el botón de inicio de sesión
-			} else {
-				// Si no hay token en el almacenamiento local, el usuario no está logeado
-				document.getElementById('user-info').style.display = 'none'; // Ocultar la información del usuario
-				document.getElementById('logout-btn').style.display = 'none'; // Ocultar el botón de cerrar sesión
-				document.getElementById('login-btn').style.display = 'inline-block'; // Mostrar el botón de inicio de sesión
-			}
-		});
-	
-		function logout() {
-			// Eliminar la información del usuario del almacenamiento local
-			localStorage.removeItem('token');
-			// Redirigir al usuario a la página de inicio de sesión
-			window.location.href = 'login.html';
-		}
+    	const token = localStorage.getItem('token');
+
+    if (token) {
+        obtenerInformacionUsuario(token);
+    } else {
+        // Si no hay token, el usuario no está autenticado
+        mostrarElementosNoAutenticados();
+    }
+	});
+
+	function obtenerInformacionUsuario(token) {
+    // Realiza una solicitud al servidor para obtener la información del usuario utilizando el token JWT
+    fetch('/user/info', {
+        method: 'GET',
+        headers: {
+            'Authorization': 'Bearer'  + token
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Error al obtener información del usuario');
+        }
+        return response.json();
+    })
+    .then(data => {
+        const username = data.username;
+        // Utiliza el nombre de usuario en la página principal
+        document.getElementById('username').innerText = username;
+        document.getElementById('user-info').style.display = 'inline-block'; // Mostrar información del usuario
+        document.getElementById('logout-btn').style.display = 'inline-block'; // Mostrar botón de cierre de sesión
+        document.getElementById('login-btn').style.display = 'none'; // Ocultar botón de inicio de sesión
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        // Manejar el error (por ejemplo, token inválido o expirado)
+        // Eliminar el token del almacenamiento local y redirigir a la página de inicio de sesión
+        localStorage.removeItem('token');
+        window.location.href = 'login.html';
+    });
+}
+
+	function mostrarElementosNoAutenticados() {
+    // Si el usuario no está autenticado, oculta la información del usuario y muestra el botón de inicio de sesión
+    document.getElementById('user-info').style.display = 'none'; // Ocultar información del usuario
+    document.getElementById('logout-btn').style.display = 'none'; // Ocultar botón de cierre de sesión
+    document.getElementById('login-btn').style.display = 'inline-block'; // Mostrar botón de inicio de sesión
+}
 	</script>
   </body>
 </html>

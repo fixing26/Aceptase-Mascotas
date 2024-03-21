@@ -2,6 +2,9 @@ const express = require("express");
 const bcrypt = require('bcrypt');
 const UserRouter = express.Router();
 const jwt = require('jsonwebtoken');
+const dotenv = require('dotenv');
+
+dotenv.config();
 
 const UserModel = require('../schemas/User-schema');
 
@@ -52,9 +55,37 @@ UserRouter.post('/login', async (req, res) => {
         if (!passwordMatch) {
             return res.status(401).send('Contraseña inválida');
         }
-        const token = jwt.sign({ userId: user._id }, 'secret_key');
-        res.status(200).json({ token });
-    
+        const token = jwt.sign({ userId: user._id , Correo: user.Correo }, process.env.SECRET, {expiresIn: '10m'});
+        res.header('authorization', token).json({
+            message:'Usuario autenticado',
+            token: token
+        });
+    });    
+
+UserRouter.get('/info', async ( req, res)=>{
+    const token = req.headers.authorization;
+
+    if(!token){
+        return res.status(401).send('Token no proporcionado');
+    }
+    try{
+
+        const decodificarToken = jwt.verify(token.split(' ')[1], process.env.SECRET);
+        const userCorreo = decodificarToken.Correo;
+
+        const user = await UserModel.findOne({ Correo: userCorreo });
+        if (!user) {
+            return res.status(404).send('Usuario no encontrado');
+        }
+
+        res.status(200).json({username: user.Nombre});
+    }catch (error){
+        console.error("Error al decodificar el token",error);
+        res.status(401).send('Token invalido')
+    }
+
 });
+
+
 
 module.exports = UserRouter;

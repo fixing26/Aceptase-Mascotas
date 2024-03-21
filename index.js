@@ -5,7 +5,7 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const { default: mongoose } = require('mongoose');
 const UserRouter = require('./public/routes/user');
-const { obtenerNombreDeUsuario } = require('./public/utilidades/token')
+
 
 dotenv.config();
 
@@ -29,7 +29,13 @@ mongoose
 expressApp.use(cors({ origin: '*' }));
 expressApp.use(bodyParser.json());
 expressApp.use(bodyParser.urlencoded({ extended: true }));
-expressApp.use(express.static('public')); // paginas estaticas
+expressApp.use(express.static('public', { 
+    setHeaders: (res, path, stat) => {
+        if (path.endsWith('.js')) {
+            res.set('Content-Type', 'text/javascript');
+        }
+    } 
+})); // paginas estaticas
 expressApp.use(express.json());
 
 expressApp.use('/user',UserRouter)
