@@ -16,7 +16,7 @@
 					<div class="img_welcome">
 						<img src="img/undraw_welcome_cats_thqn.svg" alt="welcome">
 					</div>
-          				<form action="/user/registro" method="POST">
+          				<form action="/user/registro" method="POST" id="registroForm">
 							<h1 class="title">
 								Aceptase Mascotas!
 							</h1>
@@ -65,8 +65,60 @@
       			</div>
 			</div>
 		</div>
-	</body>
+	
 	<footer class="container_footer">
 		<p>© copyright 2024 - Aceptase Mascotas!</p>
 	</footer>
+	<script>
+		document.getElementById('registroForm').addEventListener('submit', async function(event) {
+			event.preventDefault(); // Evitar que el formulario se envíe de forma tradicional
+	
+			const nombre = document.getElementById('Nombre').value;
+			const apellidos = document.getElementById('Apellidos').value;
+			const correo = document.getElementById('Correo').value;
+			const contraseña = document.getElementById('Contraseña').value;
+	
+			// Validar campos vacíos
+			if (!nombre || !apellidos || !correo || !contraseña) {
+				alert('Por favor, complete todos los campos');
+				return;
+			}
+	
+			// Validar formato de correo electrónico
+			const correoRegExp = /\S+@\S+\.\S+/;
+			if (!correoRegExp.test(correo)) {
+				alert('Por favor, ingrese un correo electrónico válido');
+				return;
+			}
+	
+			// Validar longitud mínima de contraseña
+			if (contraseña.length < 6) {
+				alert('La contraseña debe tener al menos 6 caracteres');
+				return;
+			}
+	
+			// Enviar formulario al servidor
+			try {
+				const response = await fetch('/user/registro', {
+					method: 'POST',
+					body: JSON.stringify({ Nombre: nombre, Apellidos: apellidos, Correo: correo, Contraseña: contraseña }),
+					headers: {
+						'Content-Type': 'application/json'
+					}
+				});
+	
+				if (response.ok) {
+					// Si la respuesta del servidor es exitosa, redirigir al usuario a la página de inicio de sesión
+					window.location.href = 'login.html';
+				} else {
+					const errorMessage = await response.text();
+					alert(errorMessage); // Mostrar mensaje de error del servidor
+				}
+			} catch (error) {
+				console.error('Error al enviar el formulario de registro:', error);
+				alert('Error al enviar el formulario de registro');
+			}
+		});
+	</script>
+  </body>
 </html>
