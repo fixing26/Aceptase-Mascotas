@@ -105,7 +105,6 @@
 			event.preventDefault(); // Evitar que el formulario se envíe de forma tradicional
 	
 			const Ciudad = document.getElementById('Ciudad').value;
-			const Provincia = document.getElementById('Provincia').value;
 			const Tipo = document.getElementById('Tipo').value;
 			const NumeroHabs = document.getElementById('NumeroHabs').value;
 			const NumeroBan = document.getElementById('NumeroBan').value;
@@ -116,7 +115,7 @@
 			try {
 				const response = await fetch('/Anuncio/nuevoanuncio', {
 					method: 'POST',
-					body: JSON.stringify({ Ciudad: Ciudad, Provincia: Provincia, Tipo: Tipo, NumeroHabs: NumeroHabs, NumeroBan: NumeroBan, Area: Area, Descripcion: Descripcion, Precio: Precio }),
+					body: JSON.stringify({ Ciudad: Ciudad, Tipo: Tipo, NumeroHabs: NumeroHabs, NumeroBan: NumeroBan, Area: Area, Descripcion: Descripcion, Precio: Precio }),
 					headers: {
 						'Content-Type': 'application/json'
 					}

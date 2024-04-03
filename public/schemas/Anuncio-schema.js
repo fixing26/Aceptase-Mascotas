@@ -2,7 +2,6 @@ const mongoose = require('mongoose');
 
 const anuncioSchema = mongoose.Schema({
     Ciudad : String,
-    Provincia : String,
     Tipo : String,
     NumeroHabs : String,
     NumeroBan : String,
