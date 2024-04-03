@@ -5,7 +5,7 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const { default: mongoose } = require('mongoose');
 const UserRouter = require('./public/routes/user');
-
+const AnuncioRouter = require('./public/routes/Anuncio');
 
 dotenv.config();
 
@@ -39,6 +39,7 @@ expressApp.use(express.static('public', {
 expressApp.use(express.json());
 
 expressApp.use('/user',UserRouter)
+expressApp.use("/Anuncio",AnuncioRouter)
 
 expressApp.use(function (err, req, res, next) {
     res.status(422).send({ error: err.message });
