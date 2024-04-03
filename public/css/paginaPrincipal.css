@@ -24,7 +24,17 @@
     padding-left: 3rem;
     margin-top: 0.5rem;
   }
-  
+
+.autocomplete{
+  border-radius: 0.25rem;
+  background-color: #f3eee8;
+  padding-left: 3rem;
+  list-style: none;
+}
+.autocomplete li{
+  line-height: 2;
+  height: 2rem;
+}
 input:focus{
     outline-color: #F9A826;
   }
