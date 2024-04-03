@@ -29,10 +29,27 @@
 				<div class="form_container">
 					<form action="/Anuncio/nuevoanuncio" method="post" id="AnuncioForm">
 						<h2 class="title1">Nuevo anuncio</h2>
-						<h3  class="title2">Ciudad</h3>
-						<input class="input inputCities" type="text" placeholder="Ciudad" id="Ciudad" required>
-						<h3  class="title2">Provincia</h3>
-						<input class="input inputCities" type="text" placeholder="Provincia" id="Provincia" required><br>
+						<h3  class="title2">Ciudad, Provincia</h3>
+						<div class="custom-select"></div>
+						<select name="cities" id="Ciudad" class="inputCities input">
+							<option value="Barcelona, Cataluña">Barcelona, Cataluña</option>
+							<option value="Castilla y León">Castilla y León</option>
+							<option value="Islas Canarias">Islas Canarias</option>
+							<option value="Logroño, La Rioja">Logroño, La Rioja</option>
+							<option value="Madrid, Madrid">Madrid, Madrid</option>
+							<option value="Mérida, Extremadura">Mérida, Extremadura</option>
+							<option value="Murcia, Murcia">Murcia, Murcia</option>
+							<option value="Oviedo, Asturias">Oviedo, Asturias</option>
+							<option value="Palma, Islas Baleares">Palma, Islas Baleares</option>
+							<option value="Pamplona, Navarra">Pamplona, Navarra</option>
+							<option value="Santander, Cantabria">Santander, Cantabria</option>
+							<option value="Santiago de Compostela, Galicia">Santiago de Compostela, Galicia</option>
+							<option value="Sevilla, Andalucía">Sevilla, Andalucía</option>
+							<option value="Toledo, Castilla-La Mancha">Toledo, Castilla-La Mancha</option>
+							<option value="Valencia, Valencia">Valencia, Valencia</option>
+							<option value="Vitoria-Gasteiz, País Vasco">Vitoria-Gasteiz, País Vasco</option>
+							<option value="Zaragoza, Aragón">Zaragoza, Aragón</option>							
+						  </select>		
 						<h3 class="title2">Tipo de vivienda</h3>
 						<div class="options_radio">
 							<input class="radio" type="radio" id="Tipo" name="inmueble" value="apartamento" required>

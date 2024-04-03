@@ -28,12 +28,10 @@
 			<div class="search">
 				<section>
 					<form action="">
-						<div class="search_container">
+						<div class="search_container search_city">
 							<h3 class="title3">¿Dónde deseas vivir?</h3>
 							<input class="search_input" type="search" name="" id="" placeholder="Ciudad, Provincia... ">
-							<span class="material-symbols-outlined input_svg">
-								search
-							</span>
+							<div class="autocomplete"></div>
 						</div>
 						<div class="container_btnBuscar">
 							<button class="btnBuscar">
@@ -90,6 +88,76 @@
 			// Redirigir al usuario a la página de inicio de sesión
 			window.location.href = 'login.html';
 		}
+
+		let cities = [
+		"Sevilla, Andalucía",
+		"Zaragoza, Aragón",
+		"Oviedo, Asturias",
+		"Santander, Cantabria",
+		"Toledo, Castilla-La Mancha",
+		"Castilla y León",
+		"Barcelona, Cataluña",
+		"Mérida, Extremadura",
+		"Santiago de Compostela, Galicia",
+		"Palma, Islas Baleares",
+		"Islas Canarias",
+		"Logroño, La Rioja",
+		"Madrid, Madrid",
+		"Murcia, Murcia",
+		"Pamplona, Navarra",
+		"Vitoria-Gasteiz, País Vasco",
+		"Valencia, Valencia",    
+		];
+
+		const searchContent = document.querySelector(".search_city");
+		const inputBox = document.querySelector(".search_input");
+		const sugestionBox = document.querySelector(".autocomplete");
+		const autocompleteBusqueda = cities;
+
+		inputBox.onkeyup = (e) => {
+		let userData = e.target.value;
+		let emptyArray = [];
+		if (userData) {
+			emptyArray = autocompleteBusqueda.filter((data) => {
+			return data.toLocaleLowerCase().startsWith(userData.toLocaleLowerCase());
+			});
+
+			emptyArray = emptyArray.map((data) => {
+			return `<li>${data}</li>`;
+			});
+			searchContent.classList.add("active");
+			showCities(emptyArray);
+			let allList = sugestionBox.querySelectorAll("li");
+
+			for (let index = 0; index < allList.length; index++) {
+			allList[index].addEventListener("click", () => select(allList[index]));
+			}
+		} else {
+			searchContent.classList.remove("active");
+			sugestionBox.innerHTML = "";
+		}
+		};
+
+		function select(element) {
+		let selectData = element.textContent;
+		inputBox.value = selectData;
+		searchContent.classList.remove("active");
+		sugestionBox.innerHTML = "";
+		}
+
+		function showCities(list) {
+		let listData;
+		if (!list.length) {
+			let userValue = inputBox.value;
+			listData = `<li>${userValue}</li>`;
+			searchContent.classList.remove("active");
+		} else {
+			listData = list.join("");
+			searchContent.classList.add("active");
+		}
+		sugestionBox.innerHTML = listData;
+		}
+
 	</script>
   </body>
 </html>
