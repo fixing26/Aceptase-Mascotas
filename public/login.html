@@ -73,6 +73,7 @@
 				if (response.ok) {
 					const data = await response.json();
 					localStorage.setItem('token', data.token); // Guardar el token en el almacenamiento local
+					localStorage.setItem('IdCreador', data.userId); // Guardar el id del ususario en el almaceniento local
 					window.location.href = 'index.html'; // Redirigir al usuario a la pagina principal
 				} else {
 					alert('Inicio de sesión fallido');

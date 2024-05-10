@@ -8,6 +8,7 @@ const anuncioSchema = mongoose.Schema({
     Area : Number,
     Descripcion : String, 
     Precio : Number,
+    IdCreador : String, 
   }); 
 
   const AnuncioModel = mongoose.model("Anuncio",anuncioSchema);

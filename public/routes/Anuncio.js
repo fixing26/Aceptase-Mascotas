@@ -4,6 +4,7 @@ const AnuncioRouter = express.Router();
 const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
 
+
 dotenv.config();
 
 const AnuncioModel = require("../schemas/Anuncio-schema");
@@ -11,13 +12,13 @@ const { default: mongoose, Schema } = require("mongoose");
 
 AnuncioRouter.post("/NuevoAnuncio", async (req,res)=>{
 
-    const { Ciudad, Tipo, NumeroHabs, NumeroBan, Area, Descripcion, Precio }= req.body;
+    const { Ciudad, Tipo, NumeroHabs, NumeroBan, Area, Descripcion, Precio, IdCreador }= req.body;
 
-    if ( !Ciudad  || !Tipo || !NumeroHabs || !NumeroBan || !Area || !Descripcion || !Precio ){
+    if ( !Ciudad  || !Tipo || !NumeroHabs || !NumeroBan || !Area || !Descripcion || !Precio || !IdCreador ){
         return res.status(400).send("No se permiten campos vacios");
     }
 
-    const newAnuncio = new AnuncioModel ({Ciudad, Tipo, NumeroHabs, NumeroBan, Area, Descripcion, Precio});
+    const newAnuncio = new AnuncioModel ({Ciudad, Tipo, NumeroHabs, NumeroBan, Area, Descripcion, Precio, IdCreador});
     await newAnuncio.save();
 
     return res.send("Anuncio publicado");
@@ -33,8 +34,8 @@ AnuncioRouter.get("/busqueda",async (req,res)=>{
     }
 
     const Resultado = await AnuncioModel.find({Ciudad:ciudad});
-    res.json(Resultado);
-   
+    res.render('busqueda', { Resultado:Resultado });
+    console.log(Resultado);
 
 } catch (error) {
     // Si ocurre algún error durante la ejecución, lo manejamos aquí

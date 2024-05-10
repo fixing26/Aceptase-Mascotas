@@ -26,16 +26,26 @@ mongoose
     console.error('Connection failed:', error);
 });
 
+expressApp.set('views', './public'); 
+expressApp.set('view engine','ejs');
 expressApp.use(cors({ origin: '*' }));
 expressApp.use(bodyParser.json());
 expressApp.use(bodyParser.urlencoded({ extended: true }));
-expressApp.use(express.static('public', { 
+expressApp.use(express.static('public', {
     setHeaders: (res, path, stat) => {
         if (path.endsWith('.js')) {
             res.set('Content-Type', 'text/javascript');
+        } else if (path.endsWith('.css')) {
+            res.set('Content-Type', 'text/css');
+        } else if (path.endsWith('.png')) {
+            res.set('Content-Type', 'image/png');
         }
-    } 
-})); // paginas estaticas
+    }
+}));
+expressApp.use('/img', express.static('public/img'));
+expressApp.use('/js', express.static('public/js'));
+expressApp.use('/css', express.static('public/css'));
+
 expressApp.use(express.json());
 
 expressApp.use('/user',UserRouter)

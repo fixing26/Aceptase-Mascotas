@@ -55,9 +55,10 @@ UserRouter.post('/login', async (req, res) => {
         if (!passwordMatch) {
             return res.status(401).send('Contraseña inválida');
         }
-        const token = jwt.sign({ userId: user._id , Correo: user.Correo }, process.env.SECRET, {expiresIn: '10m'});
-        res.header('authorization', token).json({
+        const token = jwt.sign({ userId: user._id , Correo: user.Correo }, process.env.SECRET, {expiresIn: '30m'});
+        res.json({
             message:'Usuario autenticado',
+            userId: user._id,
             token: token
         });
     });    
