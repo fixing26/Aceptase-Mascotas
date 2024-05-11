@@ -51,10 +51,6 @@
 									key
 								</span>	
 							</div>
-							<div class="accept">
-								<input type="checkbox" name="" id="">
-								<spam>Aceptar la <a href="http://">política de privacidad</a></spam>
-							</div>
 							<div class="container_btn">
 								<button type="submit" class="btn">
 									REGÍSTRATE
@@ -77,6 +73,7 @@
 			const apellidos = document.getElementById('Apellidos').value;
 			const correo = document.getElementById('Correo').value;
 			const contraseña = document.getElementById('Contraseña').value;
+			const politica = document.querySelector('.accept input[type="checkbox"]');
 	
 			// Validar campos vacíos
 			if (!nombre || !apellidos || !correo || !contraseña) {
@@ -95,8 +92,7 @@
 			if (contraseña.length < 6) {
 				alert('La contraseña debe tener al menos 6 caracteres');
 				return;
-			}
-	
+			}	
 			// Enviar formulario al servidor
 			try {
 				const response = await fetch('/user/registro', {
