@@ -26,12 +26,12 @@
 				</nav>
 			</header>
 			<div class="total">
-				<div class="form_container">
-					<form action="/Anuncio/nuevoanuncio" method="post" id="AnuncioForm">
+				<div class="form_group">
+					<form action="/Anuncio/NuevoAnuncio" enctype="multipart/form-data" method="post" id="AnuncioForm">
 						<h2 class="title1">Nuevo anuncio</h2>
 						<h3  class="title2">Ciudad, Provincia</h3>
 						<div class="custom-select"></div>
-						<select name="cities" id="Ciudad" class="inputCities input">
+						<select name="Ciudad" id="Ciudad" class="inputCities input">
 							<option value="Barcelona, Cataluña">Barcelona, Cataluña</option>
 							<option value="Castilla y León">Castilla y León</option>
 							<option value="Islas Canarias">Islas Canarias</option>
@@ -52,44 +52,44 @@
 						  </select>		
 						<h3 class="title2">Tipo de vivienda</h3>
 						<div class="options_radio">
-							<input class="radio" type="radio" id="Tipo" name="inmueble" value="apartamento" required>
+							<input class="radio" type="radio" id="Tipo" name="Tipo" value="apartamento" required>
 							<label for="apartamento">Apartamento</label>
-							<input class="radio" type="radio" id="Tipo" name="inmueble" value="piso">
+							<input class="radio" type="radio" id="Tipo" name="Tipo" value="piso">
 							<label for="piso">Piso</label>
-							<input class="radio" type="radio" id="Tipo" name="inmueble" value="casa">
+							<input class="radio" type="radio" id="Tipo" name="Tipo" value="casa">
 							<label for="casa">Casa</label>
-							<input class="radio" type="radio" id="Tipo" name="inmueble" value="chalet">
+							<input class="radio" type="radio" id="Tipo" name="Tipo" value="chalet">
 							<label for="chalet">Chalet</label>
 						</div>
-						<h3  class="title2">Numero de habitaciones</h3>
+						<h3 class="title2">Numero de habitaciones</h3>
 						<div class="options_radio">
-							<input class="radio" type="radio" id="NumeroHabs" name="habitaciones" value="uno" required>
+							<input class="radio" type="radio" id="NumeroHab" name="NumeroHab" value="uno" required>
 							<label for="uno">1</label><br>
-							<input class="radio" type="radio" id="NumeroHabs" name="habitaciones" value="dos">
+							<input class="radio" type="radio" id="NumeroHab" name="NumeroHab" value="dos">
 							<label for="dos">2</label><br>
-							<input class="radio" type="radio" id="NumeroHabs" name="habitaciones" value="tres">
+							<input class="radio" type="radio" id="NumeroHab" name="NumeroHab" value="tres">
 							<label for="tres">3+</label><br>
 						</div>
 						<h3  class="title2">Numero de baños</h3>
 						<div class="options_radio">
-							<input class="radio" type="radio" id="NumeroBan" name="banyos" value="uno" required>
+							<input class="radio" type="radio" id="NumeroBan" name="NumeroBan" value="uno" required>
 							<label for="uno">1</label><br>
-							<input class="radio" type="radio" id="NumeroBan" name="banyos" value="dos">
+							<input class="radio" type="radio" id="NumeroBan" name="NumeroBan" value="dos">
 							<label for="dos">2</label><br>
-							<input class="radio" type="radio" id="NumeroBan" name="banyos" value="tres">
+							<input class="radio" type="radio" id="NumeroBan" name="NumeroBan" value="tres">
 							<label for="tres">3+</label><br>
 						</div>
 						<h3  class="title2">Area del inmueble en m²</h3>
-						<input class="input inputSize" type="number" min="0" placeholder="m²" id="Area" required><br>
+						<input class="input inputSize" type="Number" min="0" placeholder="m²" id="Area" name="Area" required><br>
 						<h3 class="title2">Descripción del inmueble/zona</h3>
-						<textarea class="input" class="description" maxlength="150" id="Descripcion" placeholder="Una breve descripción de la zona y del inmueble." required></textarea><br>
+						<textarea class="input" class="description" maxlength="150" id="Descripcion" name="Descripcion" placeholder="Una breve descripción de la zona y del inmueble." required></textarea><br>
 						<h3  class="title2">Precio del inmueble en €</h3>
-						<input class="input inputSize" type="number" min="0" id="Precio" placeholder="€" required><br>
+						<input class="input inputSize" type="Number" min="0" id="Precio" name="Precio" placeholder="€" required><br>
 						<h3  class="title2">Fotos del anuncio</h3>
-						<input type="file" id="upload" name="photos" accept="image/png, image/jpeg" />
+						<input type="file" multiple id="ruta" name="ruta" accept="image/*" />
 						<label class="photos_file" for="upload">Seleccionar archivo</label>
 						<br>
-						<input class="btn" type="submit" value="Publicar el anuncio">
+						<input class="btn btn-deafault" type="submit" value="Publicar el anuncio">
 					</form>
 				</div>
 			</div>
@@ -99,38 +99,46 @@
 	<p>© copyright 2024 - Aceptase Mascotas!</p>
 </footer>
 
-	<script src=></script>
-	<script>	
-		document.getElementById('AnuncioForm').addEventListener('submit', async function(event) {
-			event.preventDefault(); // Evitar que el formulario se envíe de forma tradicional
-			
-			const userId = localStorage.getItem('IdCreador');
-			console.log('IdCreador', userId);
+<script>
+	const form = document.getElementById("AnuncioForm");
 
-			const Ciudad = document.getElementById('Ciudad').value;
-			const Tipo = document.getElementById('Tipo').value;
-			const NumeroHabs = document.getElementById('NumeroHabs').value;
-			const NumeroBan = document.getElementById('NumeroBan').value;
-			const Area = document.getElementById('Area').value;
-			const Descripcion = document.getElementById('Descripcion').value;
-			const Precio = document.getElementById('Precio').value;
-			const IdCreador = userId;
-			// Enviar formulario al servidor
-			try {
-				const response = await fetch('/Anuncio/nuevoanuncio', {
-					method: 'POST',
-					body: JSON.stringify({ Ciudad: Ciudad, Tipo: Tipo, NumeroHabs: NumeroHabs, NumeroBan: NumeroBan, Area: Area, Descripcion: Descripcion, Precio: Precio, IdCreador: IdCreador }),
-					headers: {
-						'Content-Type': 'application/json'
-					}
-				});
-	
-			} catch (error) {
-				console.error('Error al enviar el formulario de registro:', error);
-				alert('Error al enviar el formulario de registro');
-			}
-		});
-	</script>
-  </body>
+	form.addEventListener("submit", submitForm);
+
+	function submitForm(e) {
+    e.preventDefault();
+    const Ciudad = document.getElementById("Ciudad");
+	const Tipo = document.getElementById("Tipo");
+	const NumeroHab = document.getElementById('NumeroHab');
+	const NumeroBan = document.getElementById('NumeroBan');
+	const Area = document.getElementById('Area');
+	const Descripcion = document.getElementById('Descripcion');
+	const Precio = document.getElementById('Precio');
+	const IdCreador = localStorage.getItem('IdCreador');
+	console.log('IdCreador', IdCreador);
+    const formData = new FormData();
+    formData.append("Ciudad", Ciudad.value);
+	formData.append("Tipo", Tipo.value);
+	formData.append("NumeroHab", NumeroHab.value);
+	formData.append("Numeroban", NumeroBan.value);
+	formData.append("Area", Area.value);
+	formData.append("Descripcion", Descripcion.value);
+	formData.append("Precio", Precio.value);
+	formData.append("IdCreador", IdCreador);
+	const files = document.getElementById('ruta').files;
+    for(let i =0; i < files.length; i++) {
+		formData.append("files", files[i]);
+    }
+	console.log(formData);
+    fetch("/Anuncio/NuevoAnuncio", {
+        body: formData,
+		method: 'POST',
+        
+    })
+        .then((res) => console.log(res))
+        .catch((err) => ("Error occured", err));
+}
+</script>
+		
+</body>
 
 </html>
