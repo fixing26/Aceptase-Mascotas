@@ -86,7 +86,7 @@
 						<h3  class="title2">Precio del inmueble en €</h3>
 						<input class="input inputSize" type="Number" min="0" id="Precio" name="Precio" placeholder="€" required><br>
 						<h3  class="title2">Fotos del anuncio</h3>
-						<input type="file" multiple id="ruta" name="ruta" accept="image/*" />
+						<input type="file" multiple id="files" name="files" accept="image/*" />
 						<label class="photos_file" for="upload">Seleccionar archivo</label>
 						<br>
 						<input class="btn btn-deafault" type="submit" value="Publicar el anuncio">
@@ -104,26 +104,33 @@
 		document.getElementById('AnuncioForm').addEventListener('submit', async function(event) {
 			event.preventDefault(); // Evitar que el formulario se envíe de forma tradicional
 			
-			const userId = localStorage.getItem('IdCreador');
-			console.log('IdCreador', userId);
-			
-			const Ciudad = document.getElementById('Ciudad').value;
-			const Tipo = document.querySelector('input[name="inmueble"]:checked').value;
-			const NumeroHabs = document.querySelector('input[name="habitaciones"]:checked').value;
-			const NumeroBan = document.querySelector('input[name="banyos"]:checked').value;
-			const Area = document.getElementById('Area').value;
-			const Descripcion = document.getElementById('Descripcion').value;
-			const Precio = document.getElementById('Precio').value;
-			const IdCreador = userId;
-			// Enviar formulario al servidor
+			const Ciudad = document.getElementById('Ciudad')
+			const Tipo = document.querySelector('input[name="inmueble"]:checked')
+			const NumeroHab = document.querySelector('input[name="habitaciones"]:checked')
+			const NumeroBan = document.querySelector('input[name="banyos"]:checked')
+			const Area = document.getElementById('Area')
+			const Descripcion = document.getElementById('Descripcion')
+			const Precio = document.getElementById('Precio')
+			const IdCreador = localStorage.getItem('IdCreador');
+			console.log('IdCreador', IdCreador);
+			const formData = new FormData();
+			formData.append("Ciudad", Ciudad.value);
+			formData.append("Tipo", Tipo.value);
+			formData.append("NumeroHab", NumeroHab.value);
+			formData.append("Numeroban", NumeroBan.value);
+			formData.append("Area", Area.value);
+			formData.append("Descripcion", Descripcion.value);
+			formData.append("Precio", Precio.value);
+			formData.append("IdCreador", IdCreador);
+			const files = document.getElementById('files').files;
+			for(let i =0; i < files.length; i++) {
+				formData.append("files", files[i]);
+			}
+			console.log(formData);
 			try {
 				const response = await fetch('/Anuncio/nuevoanuncio', {
+					body:formData,
 					method: 'POST',
-					body: JSON.stringify({ Ciudad: Ciudad, Tipo: Tipo, NumeroHabs: NumeroHabs, NumeroBan: NumeroBan, Area: Area, Descripcion: Descripcion, Precio: Precio, IdCreador: IdCreador }),
-					headers: {
-						'Content-Type': 'application/json'
-					}
-					
 				});
 				window.location.href = 'index.html';
 	

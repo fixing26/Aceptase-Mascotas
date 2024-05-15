@@ -26,6 +26,7 @@ AnuncioRouter.post("/NuevoAnuncio", upload.array('files',3), async (req,res)=>{
     }
     
     if (!req.file) {
+        console.log(req.file)
         return res.status(400).send("No se proporcionó una imagen");
     }
 
