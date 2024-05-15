@@ -21,7 +21,7 @@
 							<li class="options border_options"><a href="nuevoanuncio.html">Anucie aqui</a></li>
 							<li class="options border_options"><a href="">Mis anuncios</a></li>
 							<li class="options border_options"><a href="">Favoritos</a></li>
-							<li class="options login"><a href="login.html">CERRAR SESIÓN</a></li>
+							<li id="logout-btn" style="display: none;" class="options border_options"><a href="#" onclick="logout()">Cerrar sesión</a></li>
 						</ul>
 					</nav>
 				</header>
@@ -70,7 +70,59 @@
 			</div>
 		</div>
 		</div><footer class="container_footer"><p>© copyright 2024 - Aceptase Mascotas!</p></footer>
-		<script src="js/misanuncios.js"></script>
+		<script>
+			const allChangePhotoButtons = document.querySelectorAll("[photo-change-slide-button]");
+
+			allChangePhotoButtons.forEach(button => {
+				button.addEventListener("click", () => {
+					const photos = button.closest(".info").querySelector(".photos");
+					const activePhoto = photos.querySelector("[photo-active]");
+					const indexActivePhoto = Array.from(photos.children).indexOf(activePhoto);
+					let indexNewActivePhoto;
+
+					if (button.getAttribute("photo-change-slide-button") === "next") {
+						indexNewActivePhoto = indexActivePhoto + 1;
+					} else {
+						indexNewActivePhoto = indexActivePhoto - 1;
+					}
+					if (indexNewActivePhoto >= photos.children.length) {
+						indexNewActivePhoto = 0;
+					}
+					if (indexNewActivePhoto < 0) {
+						indexNewActivePhoto = photos.children.length - 1;
+					}
+					activePhoto.removeAttribute("photo-active");
+					photos.children[indexNewActivePhoto].setAttribute("photo-active", "true");
+				});
+			});
+
+			document.addEventListener('DOMContentLoaded', function() {
+			const token = localStorage.getItem('token');
+			console.log('Token',token);
+			if (token) {
+				// Si hay un token en el almacenamiento local, el usuario está logeado
+				document.getElementById('logout-btn').style.display = 'inline-block'; // Mostrar el botón de cerrar sesión
+				document.getElementById('login-btn').style.display = 'none'; // Ocultar el botón de inicio de sesión
+				document.getElementById('Anuncie').style.display = 'inline-block';
+				document.getElementById('Mis anuncios').style.display = 'inline-block';
+				document.getElementById('Favoritos').style.display = 'inline-block';
+			} else {
+				// Si no hay token en el almacenamiento local, el usuario no está logeado
+				document.getElementById('logout-btn').style.display = 'none'; // Ocultar el botón de cerrar sesión
+				document.getElementById('login-btn').style.display = 'inline-block'; // Mostrar el botón de inicio de sesión
+				document.getElementById('Anuncie').style.display = 'none';
+				document.getElementById('Mis anuncios').style.display = 'none';
+				document.getElementById('Favoritos').style.display = 'none';
+			}
+		});
+		function logout() {
+			// Eliminar la información del usuario del almacenamiento local
+			localStorage.removeItem('token');
+			// Redirigir al usuario a la página de inicio de sesión
+			window.location.href = 'login.html';
+		}
+
+		</script>
 	</body>
 
 </html>

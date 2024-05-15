@@ -21,7 +21,7 @@
 						<li class="options border_options"><a href="">Anucie aqui</a></li>
 						<li class="options border_options"><a href="misanuncios.html">Mis anuncios</a></li>
 						<li class="options border_options"><a href="">Favoritos</a></li>
-						<li class="options login"><a href="login.html">CERRAR SESIÓN</a></li>
+						<li id="logout-btn" style="display: none;" class="options border_options"><a href="#" onclick="logout()">Cerrar sesión</a></li>
 					</ul>
 				</nav>
 			</header>
@@ -52,31 +52,31 @@
 						  </select>		
 						<h3 class="title2">Tipo de vivienda</h3>
 						<div class="options_radio">
-							<input class="radio" type="radio" id="Tipo" name="Tipo" value="apartamento" required>
+							<input class="radio" type="radio" id="apartamento" name="inmueble" value="apartamento" required>
 							<label for="apartamento">Apartamento</label>
-							<input class="radio" type="radio" id="Tipo" name="Tipo" value="piso">
+							<input class="radio" type="radio" id="piso" name="inmueble" value="piso">
 							<label for="piso">Piso</label>
-							<input class="radio" type="radio" id="Tipo" name="Tipo" value="casa">
+							<input class="radio" type="radio" id="casa" name="inmueble" value="casa">
 							<label for="casa">Casa</label>
-							<input class="radio" type="radio" id="Tipo" name="Tipo" value="chalet">
+							<input class="radio" type="radio" id="chalet" name="inmueble" value="chalet">
 							<label for="chalet">Chalet</label>
 						</div>
 						<h3 class="title2">Numero de habitaciones</h3>
 						<div class="options_radio">
-							<input class="radio" type="radio" id="NumeroHab" name="NumeroHab" value="uno" required>
+							<input class="radio" type="radio" id="uno" name="habitaciones" value=1 required>
 							<label for="uno">1</label><br>
-							<input class="radio" type="radio" id="NumeroHab" name="NumeroHab" value="dos">
+							<input class="radio" type="radio" id="dos" name="habitaciones" value=2>
 							<label for="dos">2</label><br>
-							<input class="radio" type="radio" id="NumeroHab" name="NumeroHab" value="tres">
+							<input class="radio" type="radio" id="tres" name="habitaciones" value=3>
 							<label for="tres">3+</label><br>
 						</div>
 						<h3  class="title2">Numero de baños</h3>
 						<div class="options_radio">
-							<input class="radio" type="radio" id="NumeroBan" name="NumeroBan" value="uno" required>
+							<input class="radio" type="radio" id="uno" name="banyos" value=1 required>
 							<label for="uno">1</label><br>
-							<input class="radio" type="radio" id="NumeroBan" name="NumeroBan" value="dos">
+							<input class="radio" type="radio" id="dos" name="banyos" value=2>
 							<label for="dos">2</label><br>
-							<input class="radio" type="radio" id="NumeroBan" name="NumeroBan" value="tres">
+							<input class="radio" type="radio" id="tres" name="banyos" value=3>
 							<label for="tres">3+</label><br>
 						</div>
 						<h3  class="title2">Area del inmueble en m²</h3>
@@ -99,46 +99,67 @@
 	<p>© copyright 2024 - Aceptase Mascotas!</p>
 </footer>
 
-<script>
-	const form = document.getElementById("AnuncioForm");
+	<script src=></script>
+	<script>	
+		document.getElementById('AnuncioForm').addEventListener('submit', async function(event) {
+			event.preventDefault(); // Evitar que el formulario se envíe de forma tradicional
+			
+			const userId = localStorage.getItem('IdCreador');
+			console.log('IdCreador', userId);
+			
+			const Ciudad = document.getElementById('Ciudad').value;
+			const Tipo = document.querySelector('input[name="inmueble"]:checked').value;
+			const NumeroHabs = document.querySelector('input[name="habitaciones"]:checked').value;
+			const NumeroBan = document.querySelector('input[name="banyos"]:checked').value;
+			const Area = document.getElementById('Area').value;
+			const Descripcion = document.getElementById('Descripcion').value;
+			const Precio = document.getElementById('Precio').value;
+			const IdCreador = userId;
+			// Enviar formulario al servidor
+			try {
+				const response = await fetch('/Anuncio/nuevoanuncio', {
+					method: 'POST',
+					body: JSON.stringify({ Ciudad: Ciudad, Tipo: Tipo, NumeroHabs: NumeroHabs, NumeroBan: NumeroBan, Area: Area, Descripcion: Descripcion, Precio: Precio, IdCreador: IdCreador }),
+					headers: {
+						'Content-Type': 'application/json'
+					}
+					
+				});
+				window.location.href = 'index.html';
+	
+			} catch (error) {
+				console.error('Error al enviar el formulario de registro:', error);
+				alert('Error al enviar el formulario de registro');
+			}
+			
+		});
 
-	form.addEventListener("submit", submitForm);
-
-	function submitForm(e) {
-    e.preventDefault();
-    const Ciudad = document.getElementById("Ciudad");
-	const Tipo = document.getElementById("Tipo");
-	const NumeroHab = document.getElementById('NumeroHab');
-	const NumeroBan = document.getElementById('NumeroBan');
-	const Area = document.getElementById('Area');
-	const Descripcion = document.getElementById('Descripcion');
-	const Precio = document.getElementById('Precio');
-	const IdCreador = localStorage.getItem('IdCreador');
-	console.log('IdCreador', IdCreador);
-    const formData = new FormData();
-    formData.append("Ciudad", Ciudad.value);
-	formData.append("Tipo", Tipo.value);
-	formData.append("NumeroHab", NumeroHab.value);
-	formData.append("Numeroban", NumeroBan.value);
-	formData.append("Area", Area.value);
-	formData.append("Descripcion", Descripcion.value);
-	formData.append("Precio", Precio.value);
-	formData.append("IdCreador", IdCreador);
-	const files = document.getElementById('ruta').files;
-    for(let i =0; i < files.length; i++) {
-		formData.append("files", files[i]);
-    }
-	console.log(formData);
-    fetch("/Anuncio/NuevoAnuncio", {
-        body: formData,
-		method: 'POST',
-        
-    })
-        .then((res) => console.log(res))
-        .catch((err) => ("Error occured", err));
-}
-</script>
-		
-</body>
+		document.addEventListener('DOMContentLoaded', function() {
+			const token = localStorage.getItem('token');
+			console.log('Token',token);
+			if (token) {
+				// Si hay un token en el almacenamiento local, el usuario está logeado
+				document.getElementById('logout-btn').style.display = 'inline-block'; // Mostrar el botón de cerrar sesión
+				document.getElementById('login-btn').style.display = 'none'; // Ocultar el botón de inicio de sesión
+				document.getElementById('Anuncie').style.display = 'inline-block';
+				document.getElementById('Mis anuncios').style.display = 'inline-block';
+				document.getElementById('Favoritos').style.display = 'inline-block';
+			} else {
+				// Si no hay token en el almacenamiento local, el usuario no está logeado
+				document.getElementById('logout-btn').style.display = 'none'; // Ocultar el botón de cerrar sesión
+				document.getElementById('login-btn').style.display = 'inline-block'; // Mostrar el botón de inicio de sesión
+				document.getElementById('Anuncie').style.display = 'none';
+				document.getElementById('Mis anuncios').style.display = 'none';
+				document.getElementById('Favoritos').style.display = 'none';
+			}
+		});
+		function logout() {
+			// Eliminar la información del usuario del almacenamiento local
+			localStorage.removeItem('token');
+			// Redirigir al usuario a la página de inicio de sesión
+			window.location.href = 'login.html';
+		}
+	</script>
+  </body>
 
 </html>
