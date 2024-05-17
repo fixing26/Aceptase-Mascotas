@@ -86,4 +86,25 @@ AnuncioRouter.get("/busqueda",async (req,res)=>{
 
 });
 
+AnuncioRouter.get("/MisAnuncios",async (req,res)=>{
+
+    try {
+    const {IdCreador} = req.query;
+
+    if(!IdCreador){
+        return res.status(400).json({error:'Error interno'});
+    }
+
+    const Resultado = await AnuncioModel.find({IdCreador:IdCreador});
+    res.render('misanuncios', { Resultado:Resultado });
+    console.log(Resultado);
+
+} catch (error) {
+    // Si ocurre algún error durante la ejecución, lo manejamos aquí
+    console.error("Error en la consulta:", error);
+    return res.status(500).json({ error: "Ocurrió un error al procesar la solicitud" });
+}
+
+});
+
 module.exports = AnuncioRouter;
