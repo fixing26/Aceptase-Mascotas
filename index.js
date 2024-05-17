@@ -45,6 +45,7 @@ expressApp.use(express.static('public', {
 expressApp.use('/img', express.static('public/img'));
 expressApp.use('/js', express.static('public/js'));
 expressApp.use('/css', express.static('public/css'));
+expressApp.use('/uploads',express.static('uploads'));
 
 expressApp.use(express.json());
 

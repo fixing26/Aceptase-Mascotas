@@ -8,7 +8,17 @@ const fs = require('fs');
 
 dotenv.config();
 
-const upload = multer({ dest: 'uploads/'});
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, 'uploads/')
+    },
+    filename: function (req, file, cb) {
+      cb(null, Date.now() + '-' + file.originalname)
+    }
+  });
+  
+  const upload = multer({ storage: storage });
+  
 
 const AnuncioModel = require("../schemas/Anuncio-schema");
 const { default: mongoose, Schema } = require("mongoose");
@@ -25,8 +35,10 @@ AnuncioRouter.post("/NuevoAnuncio", upload.array('files',3), async (req,res)=>{
         return res.status(400).send("No se permiten campos vacíos");
     }
     
-    if (!req.file) {
-        console.log(req.file)
+    const files = req.files
+
+    if (!files) {
+        console.log(files)
         return res.status(400).send("No se proporcionó una imagen");
     }
 
@@ -40,7 +52,7 @@ AnuncioRouter.post("/NuevoAnuncio", upload.array('files',3), async (req,res)=>{
         Descripcion,  
         Precio, 
         IdCreador, 
-        ruta: req.file.path
+        files
     })
     try{
         await newAnuncio.save();
