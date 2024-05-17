@@ -87,7 +87,7 @@
 						<input class="input inputSize" type="Number" min="0" id="Precio" name="Precio" placeholder="€" required><br>
 						<h3  class="title2">Fotos del anuncio</h3>
 						<input type="file" multiple id="files" name="files" accept="image/*" />
-						<label class="photos_file" for="upload">Seleccionar archivo</label>
+						<label class="photos_file" for="upload">Seleccionar archivos (Máximo 3)</label>
 						<br>
 						<input class="btn btn-deafault" type="submit" value="Publicar el anuncio">
 					</form>
@@ -123,6 +123,13 @@
 			formData.append("Precio", Precio.value);
 			formData.append("IdCreador", IdCreador);
 			const files = document.getElementById('files').files;
+
+			if (files.length > 3){
+				alert('Solo se pueden seleccionar hasta 3 archivos');
+				return;
+			}
+
+
 			for(let i =0; i < files.length; i++) {
 				formData.append("files", files[i]);
 			}
