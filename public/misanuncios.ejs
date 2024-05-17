@@ -8,7 +8,7 @@
 		<link rel="stylesheet" href="/css/menu.css">
 		<link rel="stylesheet" href="/css/misanuncios.css">
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
-		<link rel="shortcut icon" type="image" href="img/icon-pet-paw.svg">
+		<link rel="shortcut icon" type="image" href="/img/icon-pet-paw.svg">
 		
 	</head>
 	<body>
@@ -18,9 +18,9 @@
 					<a href="index.html" class="title">Aceptase Mascotas</a>
 					<nav>
 						<ul class="navs">
-							<li class="options border_options"><a href="nuevoanuncio.html">Anucie aqui</a></li>
-							<li class="options border_options"><a href="">Mis anuncios</a></li>
-							<li class="options border_options"><a href="">Favoritos</a></li>
+							<li id='Anuncie'class="options border_options"><a href="nuevoanuncio.html">Anucie aqui</a></li>
+							<li id='Mis anuncios'class="options border_options"><a href="">Mis anuncios</a></li>
+							<li id="Favoritos" class="options border_options"><a href="">Favoritos</a></li>
 							<li id="logout-btn" style="display: none;" class="options border_options"><a href="#" onclick="logout()">Cerrar sesión</a></li>
 						</ul>
 					</nav>
@@ -28,21 +28,12 @@
 				<div class="total">
 					<div>
 						<div class="container_info">
-							<div class="icon_edit">
-								<a href="nuevoanuncio.html"><span class="material-symbols-outlined input_svg position_bathroom btn_edit2">
-									edit
-								</span></a>
-							</div>
-							<div class="icon_delete">
-								<span class="material-symbols-outlined input_svg position_bathroom btn_disable2">
-									delete
-								</span>
-							</div>
 							<div class="Resultado">
 								<% if (Resultado.length > 0) { %>
 								  <h2><%= Resultado[0].Ciudad %></h2>
 								<% } %>
 								<% Resultado.forEach(function(anuncio) { %>
+									</div>	
 								  <div class="info">
 									<section class="container_slidephotos">
 									  <ul class="photos">
@@ -61,8 +52,9 @@
 									  <p class="beds"><%= anuncio.NumeroHab %> habitaciones</p>
 									  <span class="material-symbols-outlined input_svg position_bathroom">shower</span>
 									  <p class="bathrooms"><%= anuncio.NumeroBan %> baños</p>
+									  <button class="EliminarAnuncio" data-id="<%= anuncio._id %>">Borrar Anuncio</button>
 									  <span class="fav" id="favo">
-										<span id="fav" class="positionbtnfav material-symbols-outlined input_svg dislike">heart_plus</span>
+									<span id="fav" class="positionbtnfav material-symbols-outlined input_svg dislike">heart_plus</span>
 									  </span>
 									</div>
 								  </div>
@@ -107,27 +99,56 @@
 			if (token) {
 				// Si hay un token en el almacenamiento local, el usuario está logeado
 				document.getElementById('logout-btn').style.display = 'inline-block'; // Mostrar el botón de cerrar sesión
-				document.getElementById('login-btn').style.display = 'none'; // Ocultar el botón de inicio de sesión
 				document.getElementById('Anuncie').style.display = 'inline-block';
 				document.getElementById('Mis anuncios').style.display = 'inline-block';
 				document.getElementById('Favoritos').style.display = 'inline-block';
 			} else {
 				// Si no hay token en el almacenamiento local, el usuario no está logeado
 				document.getElementById('logout-btn').style.display = 'none'; // Ocultar el botón de cerrar sesión
-				document.getElementById('login-btn').style.display = 'inline-block'; // Mostrar el botón de inicio de sesión
 				document.getElementById('Anuncie').style.display = 'none';
 				document.getElementById('Mis anuncios').style.display = 'none';
 				document.getElementById('Favoritos').style.display = 'none';
 			}
-		});
+			document.querySelectorAll('.EliminarAnuncio').forEach(button => {
+                console.log('DOM fully loaded and parsed');
+                button.addEventListener('click', async function(event) {
+                    const _id = event.target.getAttribute('data-id');
+                    console.log('_id', _id); // Verifica que el ID se está leyendo correctamente
+                    try {
+                        const response = await fetch('/Anuncio/EliminarAnuncio', {
+                            method: 'DELETE',
+                            body: JSON.stringify({ _id: _id }),
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },    
+                        });
+
+                        if (!response.ok) {
+                            throw new Error('Error al eliminar el anuncio');
+                        }
+
+                        const result = await response.json();
+                        console.log(result);
+                        alert(result.mensaje); // Mostrar mensaje de éxito
+
+                        // Opcional: eliminar el anuncio de la interfaz después de eliminarlo en el servidor
+                        if (result.mensaje === 'Anuncio eliminado correctamente') {
+                            event.target.closest('.info').remove();
+                        }
+                    } catch (error) {
+                        console.error('Error:', error);
+                        alert('Error al eliminar el anuncio');
+                    }
+                });
+            });
+        });
 		function logout() {
 			// Eliminar la información del usuario del almacenamiento local
 			localStorage.removeItem('token');
 			// Redirigir al usuario a la página de inicio de sesión
 			window.location.href = 'login.html';
 		}
-
-		</script>
+		</script>	
 	</body>
 
 </html>

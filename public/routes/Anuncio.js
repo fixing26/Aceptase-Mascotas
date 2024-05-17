@@ -30,7 +30,7 @@ AnuncioRouter.post("/NuevoAnuncio", upload.array('files',3), async (req,res)=>{
 
     const { Ciudad, Tipo, NumeroHab, NumeroBan, Area, Descripcion, Precio, IdCreador } = req.body;
 
-    if (!Ciudad || !Tipo || !NumeroHab || !Area || !Descripcion || !Precio || !IdCreador) {
+    if (!Ciudad || !Tipo || !NumeroHab || !NumeroBan || !Area || !Descripcion || !Precio || !IdCreador) {
         console.log(Ciudad,Tipo,NumeroBan,NumeroHab,Area,Descripcion,Precio,IdCreador);
         return res.status(400).send("No se permiten campos vacíos");
     }
@@ -86,6 +86,7 @@ AnuncioRouter.get("/busqueda",async (req,res)=>{
 
 });
 
+//metodo para buscar anuncios segun id del creador
 AnuncioRouter.get("/MisAnuncios",async (req,res)=>{
 
     try {
@@ -105,6 +106,29 @@ AnuncioRouter.get("/MisAnuncios",async (req,res)=>{
     return res.status(500).json({ error: "Ocurrió un error al procesar la solicitud" });
 }
 
+});
+
+//metodo para eliminar anuncios segun id del anuncio
+AnuncioRouter.delete("/EliminarAnuncio", async (req, res) => {
+    try {
+        const { _id } = req.body;
+
+        if (!_id) {
+            return res.status(400).json({ error: 'No se ha proporcionado el ID del anuncio' });
+        }
+
+        const resultado = await AnuncioModel.findByIdAndDelete(_id);
+
+        if (!resultado) {
+            return res.status(404).json({ error: 'Anuncio no encontrado' });
+        }
+
+        return res.json({ mensaje: 'Anuncio eliminado correctamente' });
+
+    } catch (error) {
+        console.error("Error al eliminar el anuncio:", error);
+        return res.status(500).json({ error: "Ocurrió un error al procesar la solicitud" });
+    }
 });
 
 module.exports = AnuncioRouter;
