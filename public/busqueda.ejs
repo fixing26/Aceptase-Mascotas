@@ -27,53 +27,55 @@
         <div class="filter_container">
           <form action="/Anuncio/filtrar" method="get"  id="filterForm">
             <div class="search_container search_city">
-							<input class="search_input" type="text" name="ciudad" id="ciudad" placeholder="Ciudad, Provincia... ">
-							<div class="autocomplete"></div>
-						</div>
+				<input class="inputCity search_input" type="text" name="ciudad" id="ciudad" placeholder="Ciudad, Provincia... ">
+				<div class="autocomplete"></div>
+			</div>
             <div>
-                <label for="minPrecio">Precio Mínimo:</label>
-                <input type="number" id="minPrecio" name="minPrecio">
+                <h4 for="minPrecio">Precio Mínimo:</h4>
+                <input class="input" type="number" id="minPrecio" name="minPrecio">
             </div>
             <div>
-                <label for="maxPrecio">Precio Máximo:</label>
-                <input type="number" id="maxPrecio" name="maxPrecio">
+                <h4 for="maxPrecio">Precio Máximo:</h4>
+                <input class="input" type="number" id="maxPrecio" name="maxPrecio">
             </div>
             <div>
-                <label for="tipo">Tipo de Vivienda:</label>
-                <select id="tipo" name="tipo">
-                    <option value="">Cualquiera</option>
-                    <option value="casa">Casa</option>
+                <h4 for="tipo">Tipo de Vivienda:</h4>
+                <select id="tipo" name="tipo" class="inputBusqueda input">
+                    <option value="">-- Cualquiera --</option>
                     <option value="apartamento">Apartamento</option>
+                    <option value="casa">Casa</option>
+					<option value="piso">Piso</option>
+					<option value="chalet">Chalet</option>
                 </select>
             </div>
             <div>
-                <label for="numHabitaciones">Número de Habitaciones:</label>
-                <select id="numHabitaciones" name="numHabitaciones">
-                    <option value="">Cualquiera</option>
+                <h4 for="numHabitaciones">Número de Habitaciones:</h4>
+                <select id="numHabitaciones" name="numHabitaciones" class="inputBusqueda input">
+                    <option value="">-- Cualquiera --</option>
                     <option value="1">1</option>
                     <option value="2">2</option>
                     <option value="3">3+</option>
                 </select>
             </div>
             <div>
-                <label for="numBanos">Número de Baños:</label>
-                <select id="numBanos" name="numBanos">
-                    <option value="">Cualquiera</option>
+                <h4 for="numBanos">Número de Baños:</h4>
+                <select id="numBanos" name="numBanos" class="inputBusqueda input">
+                    <option value="">-- Cualquiera --</option>
                     <option value="1">1</option>
                     <option value="2">2</option>
                     <option value="3">3+</option>
                 </select>
             </div>
             <div>
-                <label for="minArea">Área Mínima:</label>
-                <input type="number" id="minArea" name="minArea">
+                <h4 for="minArea">Área Mínima:</h4>
+                <input class="input" type="number" id="minArea" name="minArea">
             </div>
             <div>
-                <label for="maxArea">Área Máxima:</label>
-                <input type="number" id="maxArea" name="maxArea">
+                <h4 for="maxArea">Área Máxima:</h4>
+                <input  class="input"type="number" id="maxArea" name="maxArea">
             </div>
             <div>
-                <button type="submit">Filtrar</button>
+                <button type="submit" class="btn">Filtrar</button>
             </div>
         </form>
         </div>
@@ -164,7 +166,7 @@
 		}
 	
 
-    let cities = [
+		let cities = [
 		"Sevilla, Andalucía",
 		"Zaragoza, Aragón",
 		"Oviedo, Asturias",
