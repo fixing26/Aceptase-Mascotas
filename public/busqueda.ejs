@@ -26,54 +26,59 @@
       </header>
       <div class="total">
         <div class="filter_container">
-          <h3>Precio</h3>
-          <div class="minmaxHeader">
-            <p>mínimo</p>
-            <p>máximo</p>
-          </div>
-          <form class="minmax" action="">
-            <input class="input" type="number" min="0" placeholder="0€">
-            <input class="input" type="number" min="0" placeholder="0€">
-          </form>
-          <h3>Tipo de vivienda</h3>
-          <form action="">
-            <label><input class="ckbox" type="checkbox">Pisos, apartamentos</label>
-            <br>
-            <label><input class="ckbox" type="checkbox">Casas y chalets</label>
-          </form>
-          <h3>Habitaciones</h3>
-          <form action="">
-            <label><input class="ckbox" type="checkbox">1</label>
-            <br>
-            <label><input class="ckbox" type="checkbox">2</label>
-            <br>
-            <label><input class="ckbox" type="checkbox">3+</label>
-          </form>
-          <h3>Baños</h3>
-          <form action="">
-            <label><input class="ckbox" type="checkbox">1</label>
-            <br>
-            <label><input class="ckbox" type="checkbox">2</label>
-            <br>
-            <label><input class="ckbox" type="checkbox">3+</label>
-          </form>
-          <h3>Area del Imóvel</h3>
-          <div class="minmaxHeader">
-            <p>mínimo</p>
-            <p>máximo</p>
-          </div>
-          <form class="minmax" action="">
-            <input class="input" type="number" min="0" placeholder="m²">
-            <input class="input" type="number" min="0" placeholder="m²">
-          </form>
-          <div class="container_btn">
-            <button class="btn">BUSCAR</button>
-          </div>
+          <form action="/Anuncio/filtrar" method="get"  id="filterForm">
+            <div class="search_container search_city">
+							<input class="search_input" type="text" name="ciudad" id="ciudad" placeholder="Ciudad, Provincia... ">
+							<div class="autocomplete"></div>
+						</div>
+            <div>
+                <label for="minPrecio">Precio Mínimo:</label>
+                <input type="number" id="minPrecio" name="minPrecio">
+            </div>
+            <div>
+                <label for="maxPrecio">Precio Máximo:</label>
+                <input type="number" id="maxPrecio" name="maxPrecio">
+            </div>
+            <div>
+                <label for="tipo">Tipo de Vivienda:</label>
+                <select id="tipo" name="tipo">
+                    <option value="">Cualquiera</option>
+                    <option value="casa">Casa</option>
+                    <option value="apartamento">Apartamento</option>
+                </select>
+            </div>
+            <div>
+                <label for="numHabitaciones">Número de Habitaciones:</label>
+                <select id="numHabitaciones" name="numHabitaciones">
+                    <option value="">Cualquiera</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3+</option>
+                </select>
+            </div>
+            <div>
+                <label for="numBanos">Número de Baños:</label>
+                <select id="numBanos" name="numBanos">
+                    <option value="">Cualquiera</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3+</option>
+                </select>
+            </div>
+            <div>
+                <label for="minArea">Área Mínima:</label>
+                <input type="number" id="minArea" name="minArea">
+            </div>
+            <div>
+                <label for="maxArea">Área Máxima:</label>
+                <input type="number" id="maxArea" name="maxArea">
+            </div>
+            <div>
+                <button type="submit">Filtrar</button>
+            </div>
+        </form>
         </div>
         <div class="Resultado">
-          <% if (Resultado.length > 0) { %>
-            <h2><%= Resultado[0].Ciudad %></h2>
-          <% } %>
           <% Resultado.forEach(function(anuncio) { %>
             <div class="info">
               <section class="container_slidephotos">
@@ -86,6 +91,7 @@
                 <button class="next_btn" photo-change-slide-button="next">&gt;</button>
               </section>
               <div class="description">
+                <h3 class="AnuncioCiudad"><%= anuncio.Ciudad %></h3>
                 <h3 class="price"><%= anuncio.Precio %>€/mes</h3>
                 <h3 class="size"><span class="material-symbols-outlined input_svg">resize</span><%= anuncio.Area %>m²</h3>
                 <p class="zona"><%= anuncio.Descripcion %></p>
@@ -106,9 +112,6 @@
   <footer class="container_footer">
     <p>© copyright 2024 - Aceptase Mascotas!</p>
   </footer>
-</body>
-</html>
-
 
 	<script>
 		// función para cambiar las fotos.
@@ -147,7 +150,7 @@
 				document.getElementById('Anuncie').style.display = 'inline-block';
 				document.getElementById('Mis anuncios').style.display = 'inline-block';
 				document.getElementById('Favoritos').style.display = 'inline-block';
-				document.getElementById("favo").style.display = 'inline-block';
+				
 			} else {
 				// Si no hay token en el almacenamiento local, el usuario no está logeado
 				document.getElementById('logout-btn').style.display = 'none'; // Ocultar el botón de cerrar sesión
@@ -155,7 +158,7 @@
 				document.getElementById('Anuncie').style.display = 'none';
 				document.getElementById('Mis anuncios').style.display = 'none';
 				document.getElementById('Favoritos').style.display = 'none';
-				document.getElementById("favo").style.display = 'none';
+				
 			}
 		});
 	
@@ -165,16 +168,76 @@
 			// Redirigir al usuario a la página de inicio de sesión
 			window.location.href = 'login.html';
 		}
-			// función para añadir like y quitar like de un anuncio
-		const fav = document.getElementById("fav");
-		fav.addEventListener("click", function() {
-			if (fav.classList.contains("like")) {
-				fav.classList.remove("like");
-			} else {
-				fav.classList.add("like");
-			}
-		});
+	
 
+    let cities = [
+		"Sevilla, Andalucía",
+		"Zaragoza, Aragón",
+		"Oviedo, Asturias",
+		"Santander, Cantabria",
+		"Toledo, Castilla-La Mancha",
+		"Castilla y León",
+		"Barcelona, Cataluña",
+		"Mérida, Extremadura",
+		"Santiago de Compostela, Galicia",
+		"Palma, Islas Baleares",
+		"Islas Canarias",
+		"Logroño, La Rioja",
+		"Madrid, Madrid",
+		"Murcia, Murcia",
+		"Pamplona, Navarra",
+		"Vitoria-Gasteiz, País Vasco",
+		"Valencia, Valencia",    
+		];
+
+		const searchContent = document.querySelector(".search_city");
+		const inputBox = document.querySelector(".search_input");
+		const sugestionBox = document.querySelector(".autocomplete");
+		const autocompleteBusqueda = cities;
+
+		inputBox.onkeyup = (e) => {
+		let userData = e.target.value;
+		let emptyArray = [];
+		if (userData) {
+			emptyArray = autocompleteBusqueda.filter((data) => {
+			return data.toLocaleLowerCase().startsWith(userData.toLocaleLowerCase());
+			});
+
+			emptyArray = emptyArray.map((data) => {
+			return `<li>${data}</li>`;
+			});
+			searchContent.classList.add("active");
+			showCities(emptyArray);
+			let allList = sugestionBox.querySelectorAll("li");
+
+			for (let index = 0; index < allList.length; index++) {
+			allList[index].addEventListener("click", () => select(allList[index]));
+			}
+		} else {
+			searchContent.classList.remove("active");
+			sugestionBox.innerHTML = "";
+		}
+		};
+
+		function select(element) {
+		let selectData = element.textContent;
+		inputBox.value = selectData;
+		searchContent.classList.remove("active");
+		sugestionBox.innerHTML = "";
+		}
+
+		function showCities(list) {
+		let listData;
+		if (!list.length) {
+			let userValue = inputBox.value;
+			listData = `<li>${userValue}</li>`;
+			searchContent.classList.remove("active");
+		} else {
+			listData = list.join("");
+			searchContent.classList.add("active");
+		}
+		sugestionBox.innerHTML = listData;
+		}
 
 	</script>
   </body>

@@ -131,4 +131,43 @@ AnuncioRouter.delete("/EliminarAnuncio", async (req, res) => {
     }
 });
 
+AnuncioRouter.get("/filtrar", async (req, res) => {
+    try {
+        const { ciudad, minPrecio, maxPrecio, tipo, numHabitaciones, numBanos, minArea, maxArea } = req.query;
+
+        let filtro = {};
+
+        if (ciudad) {
+            filtro.Ciudad = ciudad;
+        }
+        if (minPrecio) {
+            filtro.Precio = { $gte: minPrecio };
+        }
+        if (maxPrecio) {
+            filtro.Precio = { ...filtro.Precio, $lte: maxPrecio };
+        }
+        if (tipo) {
+            filtro.Tipo = tipo;
+        }
+        if (numHabitaciones) {
+            filtro.NumeroHab = { $gte: numHabitaciones};
+        }
+        if (numBanos) {
+            filtro.NumeroBan = { $gte: numBanos };
+        }
+        if (minArea) {
+            filtro.Area = { $gte: minArea };
+        }
+        if (maxArea) {
+            filtro.Area = { ...filtro.Area, $lte: maxArea };
+        }
+
+        const resultados = await AnuncioModel.find(filtro);
+        res.render('busqueda', { Resultado: resultados });
+    } catch (error) {
+        console.error("Error en la consulta:", error);
+        return res.status(500).json({ error: "Ocurrió un error al procesar la solicitud" });
+    }
+})
+
 module.exports = AnuncioRouter;
