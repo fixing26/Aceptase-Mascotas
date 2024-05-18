@@ -174,9 +174,25 @@
 
     function logout() {
       localStorage.removeItem('token');
-      window.location.href = '../login.html';
+	  event.preventDefault(); 
+      window.location.href = '../index.html';
+    }
+    function redirect(target) {
+      event.preventDefault(); 
+      window.location.href = target;
     }
 
+    document.getElementById('index').addEventListener('click', function() {
+      redirect('../index.html');
+    });
+
+    document.getElementById('anuncie').addEventListener('click', function() {
+      redirect('../nuevoanuncio.html');
+    });
+
+	document.getElementById('login-btn').addEventListener('click', function() {
+      redirect('../login.html');
+    });
     let cities = [
       "Sevilla, Andalucía",
       "Zaragoza, Aragón",
@@ -245,27 +261,6 @@
       }
       sugestionBox.innerHTML = listData;
     }
-
-    function redirect(target) {
-      event.preventDefault(); 
-      window.location.href = target;
-    }
-
-    document.getElementById('index').addEventListener('click', function() {
-      redirect('../index.html');
-    });
-
-    document.getElementById('anuncie').addEventListener('click', function() {
-      redirect('../nuevoanuncio.html');
-    });
-
-    document.getElementById('logout-btn').addEventListener('click', function() {
-      redirect('../index.html');
-    });
-
-	document.getElementById('login-btn').addEventListener('click', function() {
-      redirect('../login.html');
-    });
 
   </script>
   <script>
