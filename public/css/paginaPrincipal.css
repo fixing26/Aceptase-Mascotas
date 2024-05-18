@@ -67,11 +67,14 @@ input:focus{
     padding: 0.625rem 1.625rem;
     font-weight: bold;  
     border: none;
+    cursor: pointer;
 }
+
 
 .btnBuscar:hover{
     background: #41049e;
     color: #F9A826;
+    cursor: pointer;
   }
 .ready_list{
   margin-top: 3.75rem;

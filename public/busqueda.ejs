@@ -13,12 +13,11 @@
   <div class="container">
     <div class="back">
       <header class="header">
-        <a href="index.html" class="title">Aceptase Mascotas</a>
+        <a id="index" href="index.html" class="title">Aceptase Mascotas</a>
         <nav>
           <ul class="navs">
-            <li id="Anuncie" class="options border_options"><a href="nuevoanuncio.html">Anuncie aqui</a></li>
-            <li id="Mis anuncios" class="options border_options"><a href="misanuncios.html">Mis anuncios</a></li>
-            <li id="Favoritos" class="options border_options"><a href="">Favoritos</a></li>
+            <li id="anuncie" class="options border_options"><a href="nuevoanuncio.html">Anuncie aqui</a></li>
+            <li id="misAanuncios" class="options border_options"><a href="#">Mis anuncios</a></li>
             <li id="logout-btn" class="options border_options"><a href="#" onclick="logout()">Cerrar sesión</a></li>
             <li id="login-btn" class="options login" style="display: inline-block;"><a href="login.html">ENTRAR</a></li>
           </ul>
@@ -99,9 +98,7 @@
                 <p class="beds"><%= anuncio.NumeroHab %> habitaciones</p>
                 <span class="material-symbols-outlined input_svg position_bathroom">shower</span>
                 <p class="bathrooms"><%= anuncio.NumeroBan %> baños</p>
-                <span class="fav" id="favo">
-                  <span id="fav" class="positionbtnfav material-symbols-outlined input_svg dislike">heart_plus</span>
-                </span>
+                
               </div>
             </div>
           <% }); %>
@@ -149,16 +146,13 @@
 				document.getElementById('login-btn').style.display = 'none'; // Ocultar el botón de inicio de sesión
 				document.getElementById('Anuncie').style.display = 'inline-block';
 				document.getElementById('Mis anuncios').style.display = 'inline-block';
-				document.getElementById('Favoritos').style.display = 'inline-block';
 				
 			} else {
 				// Si no hay token en el almacenamiento local, el usuario no está logeado
 				document.getElementById('logout-btn').style.display = 'none'; // Ocultar el botón de cerrar sesión
 				document.getElementById('login-btn').style.display = 'inline-block'; // Mostrar el botón de inicio de sesión
 				document.getElementById('Anuncie').style.display = 'none';
-				document.getElementById('Mis anuncios').style.display = 'none';
-				document.getElementById('Favoritos').style.display = 'none';
-				
+				document.getElementById('Mis anuncios').style.display = 'none';				
 			}
 		});
 	
@@ -239,6 +233,29 @@
 		sugestionBox.innerHTML = listData;
 		}
 
+		function redirect(target) {
+			event.preventDefault(); 
+			window.location.href = target;
+		}
+
+		document.getElementById('index').addEventListener('click', function() {
+			redirect('../index.html');
+		});
+
+		document.getElementById('anuncie').addEventListener('click', function() {
+			redirect('../nuevoanuncio.html');
+		});
+
+		document.getElementById('msisAnuncios').addEventListener('click', function() {
+			redirect('../misanuncios.ejs');
+		});
+
+		document.getElementById('logout-btn').addEventListener('click', function() {
+			redirect('../login.html');
+		});
+		document.getElementById('login-btn').addEventListener('click', function() {
+			redirect('../login.html');
+		});
 	</script>
   </body>
 

@@ -61,4 +61,14 @@
   border: none;
   }
   
+  .btnMisAnuncios{
+    padding:0rem;
+    border-radius: 0.313rem;
+    cursor: pointer;
+    border: none;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #fff;
+    font-size: 1rem;
+  }
+  
   /*---------------------------*/

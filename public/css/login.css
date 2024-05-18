@@ -62,3 +62,7 @@ input:focus{
   line-height: 1.5;
   color: #555;
 }
+.title a{
+  text-decoration: none;
+  color: #555;
+}
