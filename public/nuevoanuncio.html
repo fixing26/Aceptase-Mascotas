@@ -15,12 +15,12 @@
 	<div class="container">
 		<div class="back">
 			<header class="header">
-				<a href="index.html" class="title">Aceptase Mascotas</a>
+				<a id="index" href="index.html" class="title">Aceptase Mascotas</a>
 				<nav>
 					<ul class="navs">
-						<li class="options border_options"><a href="">Anucie aqui</a></li>
-						<li class="options border_options"><a href="misanuncios.html">Mis anuncios</a></li>
-						<li id="logout-btn" style="display: none;" class="options border_options"><a href="#" onclick="logout()">Cerrar sesión</a></li>
+						<li id="anuncie" class="options border_options"><a href="#">Anuncie aqui</a></li>
+						<li id="misAnuncios" class="options border_options"><a href="#">Mis anuncios</a></li>
+						<li id="logout-btn" class="options border_options"><a href="#" onclick="logout()">Cerrar sesión</a></li>
 					</ul>
 				</nav>
 			</header>
@@ -51,13 +51,13 @@
 						  </select>		
 						<h3 class="title2">Tipo de vivienda</h3>
 						<div class="options_radio">
-							<input class="radio" type="radio" id="apartamento" name="inmueble" value="apartamento" required>
+							<input class="radio" type="radio" id="apartamento" name="inmueble" value="Apartamento" required>
 							<label for="apartamento">Apartamento</label>
-							<input class="radio" type="radio" id="piso" name="inmueble" value="piso">
+							<input class="radio" type="radio" id="piso" name="inmueble" value="Piso">
 							<label for="piso">Piso</label>
-							<input class="radio" type="radio" id="casa" name="inmueble" value="casa">
+							<input class="radio" type="radio" id="casa" name="inmueble" value="Casa">
 							<label for="casa">Casa</label>
-							<input class="radio" type="radio" id="chalet" name="inmueble" value="chalet">
+							<input class="radio" type="radio" id="chalet" name="inmueble" value="Chalet">
 							<label for="chalet">Chalet</label>
 						</div>
 						<h3 class="title2">Numero de habitaciones</h3>
@@ -123,7 +123,7 @@
 			formData.append("IdCreador", IdCreador);
 			const files = document.getElementById('files').files;
 
-			if (files.length > 1){
+			if (files.length > 3){
 				alert('Solo se pueden seleccionar hasta 3 archivos');
 				return;
 			}
@@ -172,6 +172,31 @@
 			// Redirigir al usuario a la página de inicio de sesión
 			window.location.href = 'login.html';
 		}
+
+	function redirect(target) {
+	event.preventDefault(); 
+	window.location.href = target;
+    }
+
+    document.getElementById('index').addEventListener('click', function() {
+      redirect('../index.html');
+    });
+
+    document.getElementById('anuncie').addEventListener('click', function() {
+      redirect('../nuevoanuncio.html');
+    });
+
+    document.getElementById('misAnuncios').addEventListener('click', function() {
+      redirect('../misanuncios.ejs');
+    });
+
+    document.getElementById('logout-btn').addEventListener('click', function() {
+      redirect('../login.html');
+    });
+
+    document.getElementById('login-btn').addEventListener('click', function() {
+      redirect('../login.html');
+    });
 	</script>
   </body>
 

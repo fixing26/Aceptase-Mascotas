@@ -67,7 +67,7 @@ inputCity:focus{
   justify-content:space-around;  
 }
 .btn{
-  margin-top: 0;
+  margin-top: 2rem;
 }
 /*---------------------------*/
 .total{
@@ -89,9 +89,13 @@ inputCity:focus{
   padding: 1.25rem;
   display: grid;
   grid-template-columns: auto auto;
-  gap:0.625rem;
+  gap:1.625rem;
   grid-template-rows: auto auto auto auto;
   align-content: center ;
+}
+.anuncioCiudad{
+  grid-column: 1/5;
+  
 }
 .price{
   grid-column: 1/5;
@@ -213,4 +217,11 @@ button{
   text-align: center;
   height: 2rem;
   min-width: 8.625rem;
+}
+
+.autocomplete{
+  border-radius: 0.25rem;
+  background-color: #f3eee8;
+  padding-left: 3rem;
+  list-style: none;
 }

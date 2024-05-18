@@ -17,8 +17,13 @@
         <nav>
           <ul class="navs">
             <li id="anuncie" class="options border_options"><a href="nuevoanuncio.html">Anuncie aqui</a></li>
-            <li id="misAanuncios" class="options border_options"><a href="#">Mis anuncios</a></li>
-            <li id="logout-btn" class="options border_options"><a href="#" onclick="logout()">Cerrar sesión</a></li>
+            <li id="misAnuncios" class="options border_options">
+				<form id="misAnunciosForm" action="../Anuncio/MisAnuncios" method="GET">
+					<input type="hidden" name="IdCreador" id="IdCreador">
+					<button type="submit" class="btnMisAnuncios" >Mis anuncios</button>
+				</form>							
+			</li>	
+            <li id="logout-btn" class="options border_options"><a href="index.html" onclick="logout()">Cerrar sesión</a></li>
             <li id="login-btn" class="options login" style="display: inline-block;"><a href="login.html">ENTRAR</a></li>
           </ul>
         </nav>
@@ -27,7 +32,8 @@
         <div class="filter_container">
           <form action="/Anuncio/filtrar" method="get"  id="filterForm">
             <div class="search_container search_city">
-				<input class="inputCity search_input" type="text" name="ciudad" id="ciudad" placeholder="Ciudad, Provincia... ">
+				<h4 for="minPrecio">Ciudad, Provincia:</h4>
+				<input class="inputCity search_input" type="text" name="ciudad" id="ciudad">
 				<div class="autocomplete"></div>
 			</div>
             <div>
@@ -42,14 +48,14 @@
                 <h4 for="tipo">Tipo de Vivienda:</h4>
                 <select id="tipo" name="tipo" class="inputBusqueda input">
                     <option value="">-- Cualquiera --</option>
-                    <option value="apartamento">Apartamento</option>
-                    <option value="casa">Casa</option>
-					<option value="piso">Piso</option>
-					<option value="chalet">Chalet</option>
+                    <option value="Apartamento">Apartamento</option>
+                    <option value="Casa">Casa</option>
+					<option value="Piso">Piso</option>
+					<option value="Chalet">Chalet</option>
                 </select>
             </div>
             <div>
-                <h4 for="numHabitaciones">Número de Habitaciones:</h4>
+                <h4 for="numHabitaciones">Habitaciones:</h4>
                 <select id="numHabitaciones" name="numHabitaciones" class="inputBusqueda input">
                     <option value="">-- Cualquiera --</option>
                     <option value="1">1</option>
@@ -58,7 +64,7 @@
                 </select>
             </div>
             <div>
-                <h4 for="numBanos">Número de Baños:</h4>
+                <h4 for="numBanos">Baños:</h4>
                 <select id="numBanos" name="numBanos" class="inputBusqueda input">
                     <option value="">-- Cualquiera --</option>
                     <option value="1">1</option>
@@ -82,18 +88,20 @@
         <div class="Resultado">
           <% Resultado.forEach(function(anuncio) { %>
             <div class="info">
-              <section class="container_slidephotos">
-                <ul class="photos">
-                  <% anuncio.files.forEach(function(file) { %>
-                    <li class="photo" photo-active><img src="/uploads/<%= file.filename %>" alt="<%= file.originalname %>"></li>
-                  <% }); %>
-                </ul>
-                <button class="previous_btn" photo-change-slide-button="previous">&lt;</button>
-                <button class="next_btn" photo-change-slide-button="next">&gt;</button>
-              </section>
+				<section class="container_slidephotos">
+					<ul class="photos">
+					  <% anuncio.files.forEach(function(file, index) { %>
+						<li class="photo" <% if (index === 0) { %>photo-active<% } %>>
+						  <img src="/uploads/<%= file.filename %>" alt="<%= file.originalname %>">
+						</li>
+					  <% }); %>
+					</ul>
+					<button class="previous_btn" photo-change-slide-button="previous">&lt;</button>
+					<button class="next_btn" photo-change-slide-button="next">&gt;</button>
+				</section>
               <div class="description">
-                <h3 class="AnuncioCiudad"><%= anuncio.Ciudad %></h3>
-                <h3 class="price"><%= anuncio.Precio %>€/mes</h3>
+                <h3 class="anuncioCiudad"><%= anuncio.Tipo %> en <%= anuncio.Ciudad %></h3>
+                <h3 class="price"><%= anuncio.Precio %> €/mes</h3>
                 <h3 class="size"><span class="material-symbols-outlined input_svg">resize</span><%= anuncio.Area %>m²</h3>
                 <p class="zona"><%= anuncio.Descripcion %></p>
                 <span class="material-symbols-outlined input_svg position_bed">bed</span>
@@ -112,153 +120,158 @@
     <p>© copyright 2024 - Aceptase Mascotas!</p>
   </footer>
 
-	<script>
-		// función para cambiar las fotos.
-		const changePhotoButtons = document.querySelectorAll("[photo-change-slide-button]");
-		changePhotoButtons.forEach(button => {
-			button.addEventListener("click", () => {
-				/*console.log("entra")*/
-				const photos = document.querySelector(".photos");
-				const activePhoto = photos.querySelector("[photo-active]");
-				const indexActivePhoto = Array.from(photos.children).indexOf(activePhoto);
-				let indexNewActivePhoto;
+  <script>
+    // function que inicializa el carossel de fotos
+    function initializePhotoCarousel(container) {
+      const photos = container.querySelector(".photos");
+      const buttons = container.querySelectorAll("[photo-change-slide-button]");
+      buttons.forEach(button => {
+        button.addEventListener("click", () => {
+          const activePhoto = photos.querySelector("[photo-active]");
+          const indexActivePhoto = Array.from(photos.children).indexOf(activePhoto);
+          let indexNewActivePhoto;
 
-				if (button.dataset.changeSlideButton === "next") {
-					indexNewActivePhoto = indexActivePhoto + 1;
-				} else {
-					indexNewActivePhoto = indexActivePhoto - 1;
-				}
-				if (indexNewActivePhoto >= photos.children.length) {
-					indexNewActivePhoto = 0;
-				}
-				if (indexNewActivePhoto < 0) {
-					indexNewActivePhoto = photos.children.length - 1;
-				}
-				activePhoto.removeAttribute("photo-active");
-				photos.children[indexNewActivePhoto].setAttribute("photo-active", true);
-			});
-		});
-	
-		document.addEventListener('DOMContentLoaded', function() {
-			const token = localStorage.getItem('token');
-			console.log('Token',token);
-			if (token) {
-				// Si hay un token en el almacenamiento local, el usuario está logeado
-				document.getElementById('logout-btn').style.display = 'inline-block'; // Mostrar el botón de cerrar sesión
-				document.getElementById('login-btn').style.display = 'none'; // Ocultar el botón de inicio de sesión
-				document.getElementById('Anuncie').style.display = 'inline-block';
-				document.getElementById('Mis anuncios').style.display = 'inline-block';
-				
-			} else {
-				// Si no hay token en el almacenamiento local, el usuario no está logeado
-				document.getElementById('logout-btn').style.display = 'none'; // Ocultar el botón de cerrar sesión
-				document.getElementById('login-btn').style.display = 'inline-block'; // Mostrar el botón de inicio de sesión
-				document.getElementById('Anuncie').style.display = 'none';
-				document.getElementById('Mis anuncios').style.display = 'none';				
-			}
-		});
-	
-		function logout() {
-			// Eliminar la información del usuario del almacenamiento local
-			localStorage.removeItem('token');
-			// Redirigir al usuario a la página de inicio de sesión
-			window.location.href = 'login.html';
-		}
-	
+          if (button.getAttribute("photo-change-slide-button") === "next") {
+            indexNewActivePhoto = indexActivePhoto + 1;
+          } else {
+            indexNewActivePhoto = indexActivePhoto - 1;
+          }
 
-		let cities = [
-		"Sevilla, Andalucía",
-		"Zaragoza, Aragón",
-		"Oviedo, Asturias",
-		"Santander, Cantabria",
-		"Toledo, Castilla-La Mancha",
-		"Castilla y León",
-		"Barcelona, Cataluña",
-		"Mérida, Extremadura",
-		"Santiago de Compostela, Galicia",
-		"Palma, Islas Baleares",
-		"Islas Canarias",
-		"Logroño, La Rioja",
-		"Madrid, Madrid",
-		"Murcia, Murcia",
-		"Pamplona, Navarra",
-		"Vitoria-Gasteiz, País Vasco",
-		"Valencia, Valencia",    
-		];
+          if (indexNewActivePhoto >= photos.children.length) {
+            indexNewActivePhoto = 0;
+          }
 
-		const searchContent = document.querySelector(".search_city");
-		const inputBox = document.querySelector(".search_input");
-		const sugestionBox = document.querySelector(".autocomplete");
-		const autocompleteBusqueda = cities;
+          if (indexNewActivePhoto < 0) {
+            indexNewActivePhoto = photos.children.length - 1;
+          }
 
-		inputBox.onkeyup = (e) => {
-		let userData = e.target.value;
-		let emptyArray = [];
-		if (userData) {
-			emptyArray = autocompleteBusqueda.filter((data) => {
-			return data.toLocaleLowerCase().startsWith(userData.toLocaleLowerCase());
-			});
+          activePhoto.removeAttribute("photo-active");
+          photos.children[indexNewActivePhoto].setAttribute("photo-active", true);
+        });
+      });
+    }
 
-			emptyArray = emptyArray.map((data) => {
-			return `<li>${data}</li>`;
-			});
-			searchContent.classList.add("active");
-			showCities(emptyArray);
-			let allList = sugestionBox.querySelectorAll("li");
+    document.addEventListener('DOMContentLoaded', function() {
+      const carousels = document.querySelectorAll(".container_slidephotos");
+      carousels.forEach(carousel => {
+        initializePhotoCarousel(carousel);
+      });
 
-			for (let index = 0; index < allList.length; index++) {
-			allList[index].addEventListener("click", () => select(allList[index]));
-			}
-		} else {
-			searchContent.classList.remove("active");
-			sugestionBox.innerHTML = "";
-		}
-		};
+      const token = localStorage.getItem('token');
+      console.log('Token', token);
+      if (token) {
+        document.getElementById('logout-btn').style.display = 'inline-block';
+        document.getElementById('login-btn').style.display = 'none';
+        document.getElementById('anuncie').style.display = 'inline-block';
+        document.getElementById('misAnuncios').style.display = 'inline-block';
+      } else {
+        document.getElementById('logout-btn').style.display = 'none';
+        document.getElementById('login-btn').style.display = 'inline-block';
+        document.getElementById('anuncie').style.display = 'none';
+        document.getElementById('misAnuncios').style.display = 'none';
+      }
+    });
 
-		function select(element) {
-		let selectData = element.textContent;
-		inputBox.value = selectData;
-		searchContent.classList.remove("active");
-		sugestionBox.innerHTML = "";
-		}
+    function logout() {
+      localStorage.removeItem('token');
+      window.location.href = '../login.html';
+    }
 
-		function showCities(list) {
-		let listData;
-		if (!list.length) {
-			let userValue = inputBox.value;
-			listData = `<li>${userValue}</li>`;
-			searchContent.classList.remove("active");
-		} else {
-			listData = list.join("");
-			searchContent.classList.add("active");
-		}
-		sugestionBox.innerHTML = listData;
-		}
+    let cities = [
+      "Sevilla, Andalucía",
+      "Zaragoza, Aragón",
+      "Oviedo, Asturias",
+      "Santander, Cantabria",
+      "Toledo, Castilla-La Mancha",
+      "Castilla y León",
+      "Barcelona, Cataluña",
+      "Mérida, Extremadura",
+      "Santiago de Compostela, Galicia",
+      "Palma, Islas Baleares",
+      "Islas Canarias",
+      "Logroño, La Rioja",
+      "Madrid, Madrid",
+      "Murcia, Murcia",
+      "Pamplona, Navarra",
+      "Vitoria-Gasteiz, País Vasco",
+      "Valencia, Valencia",
+    ];
 
-		function redirect(target) {
-			event.preventDefault(); 
-			window.location.href = target;
-		}
+    const searchContent = document.querySelector(".search_city");
+    const inputBox = document.querySelector(".search_input");
+    const sugestionBox = document.querySelector(".autocomplete");
+    const autocompleteBusqueda = cities;
 
-		document.getElementById('index').addEventListener('click', function() {
-			redirect('../index.html');
-		});
+    inputBox.onkeyup = (e) => {
+      let userData = e.target.value;
+      let emptyArray = [];
+      if (userData) {
+        emptyArray = autocompleteBusqueda.filter((data) => {
+          return data.toLocaleLowerCase().startsWith(userData.toLocaleLowerCase());
+        });
 
-		document.getElementById('anuncie').addEventListener('click', function() {
-			redirect('../nuevoanuncio.html');
-		});
+        emptyArray = emptyArray.map((data) => {
+          return `<li>${data}</li>`;
+        });
+        searchContent.classList.add("active");
+        showCities(emptyArray);
+        let allList = sugestionBox.querySelectorAll("li");
 
-		document.getElementById('msisAnuncios').addEventListener('click', function() {
-			redirect('../misanuncios.ejs');
-		});
+        for (let index = 0; index < allList.length; index++) {
+          allList[index].addEventListener("click", () => select(allList[index]));
+        }
+      } else {
+        searchContent.classList.remove("active");
+        sugestionBox.innerHTML = "";
+      }
+    };
 
-		document.getElementById('logout-btn').addEventListener('click', function() {
-			redirect('../login.html');
-		});
-		document.getElementById('login-btn').addEventListener('click', function() {
-			redirect('../login.html');
-		});
-	</script>
-  </body>
+    function select(element) {
+      let selectData = element.textContent;
+      inputBox.value = selectData;
+      searchContent.classList.remove("active");
+      sugestionBox.innerHTML = "";
+    }
 
+    function showCities(list) {
+      let listData;
+      if (!list.length) {
+        let userValue = inputBox.value;
+        listData = `<li>${userValue}</li>`;
+        searchContent.classList.remove("active");
+      } else {
+        listData = list.join("");
+        searchContent.classList.add("active");
+      }
+      sugestionBox.innerHTML = listData;
+    }
+
+    function redirect(target) {
+      event.preventDefault(); 
+      window.location.href = target;
+    }
+
+    document.getElementById('index').addEventListener('click', function() {
+      redirect('../index.html');
+    });
+
+    document.getElementById('anuncie').addEventListener('click', function() {
+      redirect('../nuevoanuncio.html');
+    });
+
+    document.getElementById('logout-btn').addEventListener('click', function() {
+      redirect('../index.html');
+    });
+
+	document.getElementById('login-btn').addEventListener('click', function() {
+      redirect('../login.html');
+    });
+
+  </script>
+  <script>
+	const UserID = localStorage.getItem('IdCreador');
+		console.log('IdCreador',UserID);
+		document.querySelector('#misAnunciosForm input[name="IdCreador"]').value = UserID;
+</script>
+</body>
 </html>
