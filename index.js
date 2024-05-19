@@ -5,7 +5,7 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const { default: mongoose } = require('mongoose');
 const UserRouter = require('./public/routes/user');
-const AnuncioRouter = require('./public/routes/Anuncio');
+const AnuncioRouter = require('./public/routes/anuncio');
 
 dotenv.config();
 
@@ -18,7 +18,7 @@ const dbPassword = process.env.MONGODB_PASSWORD;
 
 //conectadonse a la base de datos
 mongoose
-.connect(`mongodb+srv://${dbUser}:${dbPassword}@cluster0.bu6gnd5.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`)
+.connect(`mongodb+srv://${dbUser}:${dbPassword}@cluster0.bu6gnd5.mongodb.net/aceptaseMascotas?retryWrites=true&w=majority&appName=Cluster0`)
 .then(() => {
     console.log('Connected to MongoDB database!');
 })
