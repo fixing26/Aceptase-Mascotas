@@ -18,11 +18,15 @@
 				<a id="index" href="index.html" class="title">Aceptase Mascotas</a>
 				<nav>
 					<ul class="navs">
-						<li id="anuncie" class="options border_options"><a href="#">Anuncie aqui</a></li>
-						<li id="misAnuncios" class="options border_options"><a href="#">Mis anuncios</a></li>
-						<li id="logout-btn" class="options border_options"><a href="#" onclick="logout()">Cerrar sesión</a></li>
+					  <li id="anuncie" class="options border_options"><a href="nuevoanuncio.html">Anuncie aqui</a></li>
+					  <li id="misAnuncios" class="options border_options">
+						  <form id="misAnunciosForm" action="../Anuncio/MisAnuncios" method="GET">
+							  <input type="hidden" name="IdCreador" id="IdCreador">
+							  <button type="submit" class="btnMisAnuncios" >Mis anuncios</button>
+						  </form>							
+					  </li>	
+					  <li id="logout-btn" class="options border_options"><a href="index.html" onclick="logout()">Cerrar sesión</a></li>
 					</ul>
-				</nav>
 			</header>
 			<div class="total">
 				<div class="form_group">
@@ -186,10 +190,6 @@
       redirect('../nuevoanuncio.html');
     });
 
-    document.getElementById('misAnuncios').addEventListener('click', function() {
-      redirect('../misanuncios.ejs');
-    });
-
     document.getElementById('logout-btn').addEventListener('click', function() {
       redirect('../login.html');
     });
@@ -197,6 +197,11 @@
     document.getElementById('login-btn').addEventListener('click', function() {
       redirect('../login.html');
     });
+	</script>
+	  <script>
+		const UserID = localStorage.getItem('IdCreador');
+			console.log('IdCreador',UserID);
+			document.querySelector('#misAnunciosForm input[name="IdCreador"]').value = UserID;
 	</script>
   </body>
 

@@ -19,43 +19,39 @@
 					<nav>
 						<ul class="navs">
 							<li id='Anuncie'class="options border_options"><a href="nuevoanuncio.html">Anucie aqui</a></li>
-							<li id='Mis anuncios'class="options border_options"><a href="">Mis anuncios</a></li>
+							<li id='Mis anuncios'class="options border_options"><a href="#">Mis anuncios</a></li>
 							<li id="Favoritos" class="options border_options"><a href="">Favoritos</a></li>
 							<li id="logout-btn" style="display: none;" class="options border_options"><a href="#" onclick="logout()">Cerrar sesión</a></li>
 						</ul>
 					</nav>
 				</header>
 				<div class="total">
-					<div>
+					<div><h2 class="title1">Mis anuncios</h2>
 						<div class="container_info">
 							<div class="Resultado">
-								<% if (Resultado.length > 0) { %>
-								  <h2><%= Resultado[0].Ciudad %></h2>
-								<% } %>
 								<% Resultado.forEach(function(anuncio) { %>
-									</div>	
 								  <div class="info">
-									<section class="container_slidephotos">
-									  <ul class="photos">
-										<% anuncio.files.forEach(function(file) { %>
-										  <li class="photo" photo-active><img src="/uploads/<%= file.filename %>" alt="<%= file.originalname %>"></li>
-										<% }); %>
-									  </ul>
-									  <button class="previous_btn" photo-change-slide-button="previous">&lt;</button>
-									  <button class="next_btn" photo-change-slide-button="next">&gt;</button>
-									</section>
+									  <section class="container_slidephotos">
+										  <ul class="photos">
+											<% anuncio.files.forEach(function(file, index) { %>
+											  <li class="photo" <% if (index === 0) { %>photo-active<% } %>>
+												<img src="/uploads/<%= file.filename %>" alt="<%= file.originalname %>">
+											  </li>
+											<% }); %>
+										  </ul>
+										  <button class="previous_btn" photo-change-slide-button="previous">&lt;</button>
+										  <button class="next_btn" photo-change-slide-button="next">&gt;</button>
+									  </section>
 									<div class="description">
-									  <h3 class="price"><%= anuncio.Precio %>€/mes</h3>
+									  <h3 class="anuncioCiudad"><%= anuncio.Tipo %> en <%= anuncio.Ciudad %></h3>
+									  <h3 class="price"><%= anuncio.Precio %> €/mes</h3>
 									  <h3 class="size"><span class="material-symbols-outlined input_svg">resize</span><%= anuncio.Area %>m²</h3>
 									  <p class="zona"><%= anuncio.Descripcion %></p>
 									  <span class="material-symbols-outlined input_svg position_bed">bed</span>
 									  <p class="beds"><%= anuncio.NumeroHab %> habitaciones</p>
 									  <span class="material-symbols-outlined input_svg position_bathroom">shower</span>
 									  <p class="bathrooms"><%= anuncio.NumeroBan %> baños</p>
-									  <button class="EliminarAnuncio" data-id="<%= anuncio._id %>">Borrar Anuncio</button>
-									  <span class="fav" id="favo">
-									  <span id="fav" class="positionbtnfav material-symbols-outlined input_svg dislike">heart_plus</span>
-									  </span>
+									  <button class="EliminarAnuncio" data-id="<%= anuncio._id %>">X Borrar Anuncio</button>
 									</div>
 								  </div>
 								<% }); %>
@@ -162,11 +158,6 @@
 		document.getElementById('Anuncie').addEventListener('click', function() {
 			redirect('../nuevoanuncio.html');
 		});
-
-		document.getElementById('Mis anuncios').addEventListener('click', function() {
-			redirect('../misanuncios.html');
-		});
-
 		document.getElementById('logout-btn').addEventListener('click', function() {
 			redirect('../login.html');
 		});

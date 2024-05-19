@@ -9,6 +9,7 @@
 .total{
   display:grid;
   grid-template-columns: auto auto;
+  margin: auto;
 }
 
 .info{
@@ -22,69 +23,12 @@
   border-radius: 0.25rem;
 }
 
-.icon_edit, .icon_delete{
-  display: none;
-}
-.container_info:hover .icon_edit{
-  display: block;
-  cursor: pointer;
-  margin-top: 30px;
-  
-}
-.container_info:hover .icon_delete{
-  display: block;
-  cursor: pointer;
-  margin-top: 30px;
-  margin-left: 15px;
-  
-}
-
 .container_info{
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-end;
 }
 
-
-/*.icon_edit{
-  cursor: pointer;
-  margin-top: 30px;
-}
-
-.icon_delete{
-  cursor: pointer;
-  margin-top: 30px;
-  margin-left: 15px;
-  
-}*/
-
-.btn_edit2{
-
-  margin: 10px;
-}
-
-.btn_disable2{
-  margin: 10px;
-  color: red;
-
-}
-.btn_edit{
-  grid-row: 8;
-  grid-column: 2;
-  display: block;
-  width: 200px;
-  padding: 10px;
-  cursor: pointer;
-}
-
-.btn_disable{
-  grid-row: 8;
-  grid-column: 5;
-  display: block;
-  width: 200px;
-  padding: 10px;
-  cursor: pointer;
-}
 
 .description{
   padding: 1.25rem;
@@ -117,7 +61,7 @@
 .position_bed{
   grid-row: 5;
   grid-column: 1;
-  text-align: end;
+  text-align: start;
 }
 .beds{
   grid-row: 5;
@@ -127,7 +71,7 @@
 .position_bathroom{
   grid-row: 6;
   grid-column: 1;
-  text-align: end;
+  text-align: start;
 }
 .bathrooms{
   grid-row: 6;
@@ -135,7 +79,27 @@
   grid-column: 2/3;
 }
 
+.EliminarAnuncio{
+  grid-column: 5/5;
+  grid-row: 1;
+  background-color: white;
+  color: #41049e;
+  max-width: 9rem;
+  justify-self: end;
+  border: none;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 1rem;
+}
 
+.anuncioCiudad{
+  grid-column: 1  /4;
+  
+}
+
+h2{
+  text-align: center;
+  margin-bottom: 3rem;
+}
 /*---------------------------*/
 li{
   list-style-type: none;
