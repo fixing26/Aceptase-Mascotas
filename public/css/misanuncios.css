@@ -6,6 +6,12 @@
 .header{
   padding: 0.625rem 1.25rem;
 }
+.title1{
+  margin-bottom: 30px;
+  padding-bottom: 10px;
+  border-bottom: #f3eee8 solid;
+}
+
 .total{
   display:grid;
   grid-template-columns: auto auto;
@@ -96,10 +102,6 @@
   
 }
 
-h2{
-  text-align: center;
-  margin-bottom: 3rem;
-}
 /*---------------------------*/
 li{
   list-style-type: none;

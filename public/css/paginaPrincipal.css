@@ -1,7 +1,9 @@
 .back{
   min-width: 110vh;
   max-width: 110vh;
+  min-height: 85vh;
 }
+
 .header{
   padding: 0.625rem 1.25rem;
 }
